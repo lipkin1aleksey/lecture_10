@@ -2,6 +2,10 @@
 
 This is a simple calculator application based on iOS calc-app.
 
+## Warning
+
+Please don't merge gh-pages brunch with any other, it was created only for demonstration.
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
