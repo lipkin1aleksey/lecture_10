@@ -5,14 +5,14 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --mode development",
-    "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development --host 0.0.0.0 --open",
-    "server": "webpack --mode production && node server.js"
+    "build:dev": "webpack --mode development",
+    "build:prod": "webpack --mode production",
+    "start:dev": "webpack-dev-server --mode development --open",
+    "start:prod": "webpack --mode production && node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/lipkin1aleksey/lecture_04.git"
+    "url": "git+ssh://git@github.com/lipkin1aleksey/lecture_10.git"
   },
   "keywords": [
     "npm",
@@ -20,7 +20,7 @@
     "simple",
     "bundle"
   ],
-  "author": "aleksey1lipkin",
+  "author": "lipkin1aleksey",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/lipkin1aleksey/lecture_10/issues"
