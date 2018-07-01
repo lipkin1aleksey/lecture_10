@@ -1,0 +1,7 @@
+ubuntu:
+    dockerfile: ./Dockerfile # путь до докер файла указываем относительно директории в build
+    build: .
+    volumes:
+      - ./code/src:/var/www/html/code/src
+    ports:
+      - "30000:8080"

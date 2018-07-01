@@ -1,0 +1,31 @@
+$font-color: #cfd0d2;
+$button-bg: #284b63;
+$main-bg: #20262E;
+.theme-dark {
+    background: $main-bg;
+    color: $font-color;
+    .header,
+    .footer {
+        background: #1C2128;
+    }
+    .calc {
+        box-shadow: none;
+        &__display {
+            background: darken($color: $button-bg, $amount: 20);
+        }
+        &__result {
+            color: $font-color;
+        }
+    }
+    .button {
+        background: $button-bg;
+        border-color:darken($color: $button-bg, $amount: 10);
+        color: $font-color;
+        &:active {
+            background: radial-gradient(ellipse at center, rgba(40,75,99,1) 0%, rgba(0,128,128,1) 100%);
+        }
+        &--dark {
+            background: darken($color: $button-bg, $amount: 5);
+        }
+    }
+}

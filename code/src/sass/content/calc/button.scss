@@ -1,0 +1,24 @@
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    border: none;
+    border-top: 1px solid $blue;
+    border-right: 1px solid $blue;
+    cursor: pointer;
+    font-size: 1.5em;
+    color: $blue;
+    background: $white;
+    // @extend .test;
+    &:active {
+        background: radial-gradient(ellipse at center, rgba(179,220,237,0.16) 0%, rgba(41,184,229,0.57) 50%, rgba(134,187,216,0.98) 100%);
+    }
+    &--wide {
+        width: 140px;
+    }
+    &--dark {
+        background: darken($color: $white, $amount: 5);
+    }
+}

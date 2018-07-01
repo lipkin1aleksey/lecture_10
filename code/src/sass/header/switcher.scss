@@ -1,0 +1,22 @@
+.switcher {
+    &__text {
+        @include Roboto(medium);
+        font-size: 16px;
+        margin-right: 16px;
+    }
+    &__button {
+        display: block;
+        border: none;
+        width: 32px;
+        height: 32px;
+        background: url("images/icons/turn-on-icon.png") center no-repeat;
+    }
+}
+@media (max-width: 576px) {
+    .switcher {
+        flex-shrink: 0;
+        &__text {
+            margin-right: 0;
+        }
+    }
+}

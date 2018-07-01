@@ -1,0 +1,10 @@
+.copyright {
+    &__text {
+        @include Roboto(medium);
+        font-size: 16px;
+        &:before {
+            content: "\00a9";
+            margin-right: 8px;
+        }
+    }
+}

@@ -1,0 +1,36 @@
+.calc {
+    max-width: 280px;
+    box-shadow: 0px 2px 20px 1px #b3b3b3;
+    &__display {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 100px;
+        width: 100%;
+        background: #2795EE;
+        padding: 0.25em;
+        font-size: 4em;
+    }
+    &__result {
+        color: #fff;
+        transform-origin: right;
+        white-space: nowrap;
+    }
+    &__panel {
+        display: flex;
+        width: 100%;
+    }
+    &__digit-buttons {
+        display: flex;
+        flex-flow: row wrap-reverse;
+    }
+    &__button {
+
+    }
+    &__format-buttons {
+        display: flex;
+    }
+    &__operators-buttons {
+
+    }
+}

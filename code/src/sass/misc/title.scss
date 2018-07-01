@@ -1,0 +1,8 @@
+.title {
+    @include Roboto(medium);
+    font-size: 24px;
+    line-height: 1.5;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+    font-weight: 500;
+}
