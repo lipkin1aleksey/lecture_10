@@ -1,6 +1,7 @@
 .calc {
     max-width: 280px;
     box-shadow: 0px 2px 20px 1px #b3b3b3;
+    position: relative;
     &__display {
         display: flex;
         justify-content: flex-end;
@@ -9,12 +10,16 @@
         width: 100%;
         background: #2795EE;
         padding: 0.25em;
+        padding-left: 40px;
         font-size: 4em;
     }
     &__result {
         color: #fff;
         transform-origin: right;
         white-space: nowrap;
+    }
+    &__menu {
+
     }
     &__panel {
         display: flex;

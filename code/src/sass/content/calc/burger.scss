@@ -1,0 +1,50 @@
+.burger {
+    width: 20px;
+    height: 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    &__line {
+        display: block;
+        width: 20px;
+        height: 2px;
+        border-radius: 4px;
+        background: $white;
+        transition: all .2s;
+    }
+    &:before,
+    &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        left: 0;
+        background: $white;
+        border-radius: 4px;
+        transition: all .2s;
+    }
+    &:before {
+        top: 0;
+    }
+    &:after {
+        bottom: 0;
+    }
+    &--open {
+        .burger__line {
+            opacity: 0;
+            background: $blue;
+        }
+        &:before {
+            transform: rotate(-45deg) translate(-5px, 5px);
+            background: $blue;
+        }
+        &:after {
+            transform: rotate(45deg) translate(-5px, -5px);
+            background: $blue;
+        }
+        
+    }
+}

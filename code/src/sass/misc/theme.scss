@@ -28,4 +28,18 @@ $main-bg: #20262E;
             background: darken($color: $button-bg, $amount: 5);
         }
     }
+    .burger {
+        &__line {
+            background: $font-color;
+        }
+        &:before,
+        &:after {
+            background: $font-color;
+        }
+    }
+    .menu {
+        &__content {
+            background: #1C2128;
+        }
+    }
 }
