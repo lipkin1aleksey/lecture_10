@@ -21,18 +21,26 @@
             <div class="container container--main">
                 <div class="calc">
                     <div class="calc__display">
+                        <span class="calc__history"></span>
                         <span class="calc__result">0</span>
-                    </div>
-                    <div class="calc__menu menu">
-                        <div class="menu__burger burger">
+                        <div class="calc__burger burger">
                             <span class="burger__line"></span>
                         </div>
+                    </div>
+                    <div class="calc__menu menu">
                         <div class="menu__content">
-                            <div class="switcher">
+                            <div class="menu__switcher switcher">
                                 <label class="checkbox-wrapper">
-                                    <input type="checkbox" name="theme-dark">
+                                    <input class="themeSwitcher" type="checkbox" name="theme-dark">
                                     <span class="checkbox"></span>
                                     <span class="switcher__text">Dark theme</span>
+                                </label>
+                            </div>
+                            <div class="menu__switcher switcher">
+                                <label class="checkbox-wrapper">
+                                    <input class="typeSwitcher" type="checkbox" name="calc-type">
+                                    <span class="checkbox"></span>
+                                    <span class="switcher__text">Scientific</span>
                                 </label>
                             </div>
                         </div>
@@ -55,6 +63,13 @@
                                 <button class="calc__button button button--dark">±</button>
                                 <button class="calc__button button button--dark">%</button>
                             </div>
+                        </div>
+                        <div class="calc__operators-buttons calc__operators-buttons--scientific">
+                            <button class="calc__button button button--dark">n!</button>
+                            <button class="calc__button button button--dark">log</button>
+                            <button class="calc__button button button--dark">√</button>
+                            <button class="calc__button button button--dark">x<sup>y</sup></button>
+                            <button class="calc__button button button--dark">x<sup>2</sup></button>
                         </div>
                         <div class="calc__operators-buttons">
                             <button class="calc__button button button--dark">÷</button>

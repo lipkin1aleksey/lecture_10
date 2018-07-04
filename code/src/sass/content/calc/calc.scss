@@ -4,22 +4,38 @@
     position: relative;
     &__display {
         display: flex;
+        flex-direction: column;
         justify-content: flex-end;
-        align-items: center;
+        align-items: flex-end;
         height: 100px;
         width: 100%;
         background: #2795EE;
         padding: 0.25em;
         padding-left: 40px;
         font-size: 4em;
-    }
-    &__result {
         color: #fff;
+    }
+    &__history {
+        font-size: 16px;
         transform-origin: right;
         white-space: nowrap;
     }
+    &__result {
+        transform-origin: right;
+        white-space: nowrap;
+    }
+    &__burger {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+    }
     &__menu {
-
+        position: absolute;
+        opacity: 0;
+        left: -50%;
+        top: 0;
+        width: 50%;
+        height: 100%;
     }
     &__panel {
         display: flex;
@@ -36,6 +52,40 @@
         display: flex;
     }
     &__operators-buttons {
-
+        &--scientific {
+            display: none;
+        }
+    }
+    &--menu-open {
+        .calc__menu {
+            left: 0;
+            opacity: 1;
+            z-index: 9;
+        }
+    }
+    &--scientific {
+        max-width: 350px;
+        .calc {
+            &__operators-buttons {
+                &--scientific {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+@media (max-width: 576px) {
+    .calc--scientific {
+        max-width: 280px;
+        .button {
+            width: 56px;
+            height: 56px;
+            &--wide {
+                width: 112px;
+            }
+            sup {
+                top: 16px;
+            }
+        }
     }
 }

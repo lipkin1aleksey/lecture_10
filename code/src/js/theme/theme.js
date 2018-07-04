@@ -1,4 +1,4 @@
-let button = document.querySelector(".switcher input[type='checkbox']");
+let button = document.querySelector(".themeSwitcher");
 
 changeTheme = () => {
     document.querySelector(".wrapper").classList.toggle("theme-dark");

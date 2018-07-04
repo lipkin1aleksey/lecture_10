@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     width: 70px;
     height: 70px;
     border: none;
@@ -20,5 +21,11 @@
     }
     &--dark {
         background: darken($color: $white, $amount: 5);
+    }
+    sup {
+        font-size: 12px;
+        position: absolute;
+        top: 25px;
+        margin-left: 9px;
     }
 }
