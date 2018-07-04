@@ -18,4 +18,4 @@ RUN npm install
 
 #скопируем наш код
 COPY ./code ./
-CMD [ "npm", "run", "server" ]
+CMD [ "npm", "run", "start:prod" ]
