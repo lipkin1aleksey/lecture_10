@@ -15,26 +15,36 @@
                     <a href="/" class="brand__logo"></a>
                     <h1 class="brand__title title">Simple Calculator</h1>
                 </div>
-                <div class="switcher">
-                    <label class="checkbox-wrapper">
-                        <input type="checkbox" name="theme-dark">
-                        <span class="checkbox"></span>
-                        <span class="switcher__text">Dark theme</span>
-                    </label>
-                </div>
             </div>
         </header>
         <main class="main">
             <div class="container container--main">
                 <div class="calc">
                     <div class="calc__display">
+                        <span class="calc__history"></span>
                         <span class="calc__result">0</span>
-                        <div class="calc__menu">
-                            <div class="burger">
-                                <span class="burger__line">123</span>
-                            </div>
-                        </div> 
+                        <div class="calc__burger burger">
+                            <span class="burger__line"></span>
+                        </div>
                     </div>
+                    <div class="calc__menu menu">
+                        <div class="menu__content">
+                            <div class="menu__switcher switcher">
+                                <label class="checkbox-wrapper">
+                                    <input class="themeSwitcher" type="checkbox" name="theme-dark">
+                                    <span class="checkbox"></span>
+                                    <span class="switcher__text">Dark theme</span>
+                                </label>
+                            </div>
+                            <div class="menu__switcher switcher">
+                                <label class="checkbox-wrapper">
+                                    <input class="typeSwitcher" type="checkbox" name="calc-type">
+                                    <span class="checkbox"></span>
+                                    <span class="switcher__text">Scientific</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div> 
                     <div class="calc__panel">
                         <div class="calc__digit-buttons">
                             <button class="calc__button button button--wide">0</button>
@@ -53,6 +63,13 @@
                                 <button class="calc__button button button--dark">±</button>
                                 <button class="calc__button button button--dark">%</button>
                             </div>
+                        </div>
+                        <div class="calc__operators-buttons calc__operators-buttons--scientific">
+                            <button class="calc__button button button--dark">n!</button>
+                            <button class="calc__button button button--dark">log</button>
+                            <button class="calc__button button button--dark">√</button>
+                            <button class="calc__button button button--dark">x<sup>y</sup></button>
+                            <button class="calc__button button button--dark">x<sup>2</sup></button>
                         </div>
                         <div class="calc__operators-buttons">
                             <button class="calc__button button button--dark">÷</button>
