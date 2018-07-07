@@ -1,2 +1,4 @@
 code/node_modules
+code/jsconfig.json
 .idea
+.vscode
