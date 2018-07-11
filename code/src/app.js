@@ -1,7 +1,10 @@
-import "./js/calc/calc";
+import {Calculator} from "./js/calc/calc";
 import "./js/calc/display";
 import "./js/calc/menu";
-import "./js/helpers/change-type";
-import "./js/helpers/theme";
 //styles
 import "./style.scss";
+
+let calcOne = new Calculator("#calc-one");
+let calcTwo = new Calculator("#calc-two");
+calcOne.init();
+calcTwo.init();

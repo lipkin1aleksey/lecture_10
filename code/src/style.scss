@@ -1,25 +1,12 @@
 //misc
-@import "./sass/misc/reset";
-@import "./sass/misc/fonts";
-@import "./sass/misc/colors";
-@import "./sass/misc/default";
-@import "./sass/misc/title";
-@import "./sass/misc/checkbox";
-@import "./sass/misc/theme";
+@import "./sass/misc/style";
 
 //header
-@import "./sass/header/brand";
-@import "./sass/header/switcher";
-@import "./sass/header/header";
+@import "./sass/header/style";
 
 
 //content
-@import "./sass/content/calc/button";
-@import "./sass/content/calc/burger";
-@import "./sass/content/calc/menu";
-@import "./sass/content/calc/calc";
+@import "./sass/content/style";
 
 //footer
-@import "./sass/footer/copyright";
-@import "./sass/footer/social";
-@import "./sass/footer/footer";
+@import "./sass/footer/style";

@@ -1,6 +1,20 @@
-# Calculator
+# Calculator v.1.2
 
 This is a simple calculator application based on iOS calc-app.
+
+## About sctructure
+
+There is are several design patterns used, such as:
+```
+1) Decorator: code\src\js\helpers\helpers.js line 43... decorates the function, removes spaces, converts to a number
+```
+```
+2) Facade: code\src\app.js line 11-12. Simply call Calculator.init() to start working with calculator
+```
+```
+3) Singleton: code\src\js\calc\menu.js
+```
+
 
 ## Warning
 
@@ -8,7 +22,8 @@ Please don't merge gh-pages brunch with any other, it was created only for demon
 
 ## Changelog
 
-Add scientific type, display history and minor fixes in design.
+v1.2 Major changes in file structure, now you can simple init any numbers of calculators by new Calculator.init()  
+v1.1 Add scientific type, display history and minor fixes in design.
 
 ## Getting Started
 

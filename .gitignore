@@ -1,4 +1,5 @@
 code/node_modules
 code/jsconfig.json
+code/.prettierrc
 .idea
 .vscode

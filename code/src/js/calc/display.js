@@ -1,43 +1,43 @@
-import { getElementWidth } from "../helpers/helpers";
+import { getElementWidth } from "../helpers/util";
 
-let displayWidth = null,
-    resultWidth = null,
-    historyWidth = null,
-    scale = 1;
+export function Display(selector) {
+  this.displayWidth = null;
+  this.resultWidth = null;
+  this.historyWidth = null;
+  this.scale = 1;
+  const display = document.querySelector(selector + " .calc__display");
+  const result = document.querySelector(selector + " .calc__result");
+  const history = document.querySelector(selector + " .calc__history");
 
-const display = document.querySelector(".calc__display");
-const result = document.querySelector(".calc__result");
-const history = document.querySelector(".calc__history");
+  this.init = function() {
+    this.displayWidth = getElementWidth(display);
+    this.resultWidth = getElementWidth(result);
+    this.historyWidth = getElementWidth(result);
+  };
 
-initDisplayWidth();
-
-function initDisplayWidth() {
-  displayWidth = getElementWidth(display);
-  resultWidth = getElementWidth(result);
-  historyWidth = getElementWidth(result);
-}
-/** @function changeElementScale
- * @param {Object} element - The element that scale will change
- */
-export function changeElementScale(element) {
-  let actualResultWidth = getElementWidth(element),
+  /** @function changeElementScale
+   * @param {Object} element - The element that scale will change
+   */
+  this.action = function(element) {
+    let actualResultWidth = getElementWidth(element),
       type = null,
       width = null;
-  if (element.classList.contains("calc__result")) {
-    type = result;
-    width = resultWidth;
-  } else {
-    type = history;
-    width = historyWidth;
-  }
-  if (actualResultWidth !== width) {
-    width = actualResultWidth;
-  }
-  let actualScale = displayWidth / width;
-  if (actualScale < 1) {
-    scale = actualScale;
-  } else {
-    scale = 1;
-  }
-  type.style.transform = `scale(${scale}, ${scale})`;
+    if (element.classList.contains("calc__result")) {
+      type = result;
+      width = this.resultWidth;
+    } else {
+      type = history;
+      width = this.historyWidth;
+    }
+    if (actualResultWidth !== width) {
+      width = actualResultWidth;
+    }
+    let actualScale = this.displayWidth / width;
+    if (actualScale < 1) {
+      this.scale = actualScale;
+    } else {
+      this.scale = 1;
+    }
+    type.style.transform = `scale(${this.scale}, ${this.scale})`;
+  };
 }
