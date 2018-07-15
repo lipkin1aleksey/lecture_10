@@ -106,7 +106,74 @@ const addSpace = number => {
 const deleteSpace = number => {
     return String(number).replace(/\s/g, '');
 };
+// CONCATENATED MODULE: ./src/js/helpers/calculations.js
+/**
+ * Descriptions
+  @param {Number} a - first term
+  @param {Number} b - second term
+*/
+const getSum = (a, b) => a + b;
+
+/**
+ * Descriptions
+  @param {Number} a - number which is substracted
+  @param {Number} b - subtrahend
+*/
+const getSubtraction = (a, b) => a - b;
+
+/**
+ * Descriptions
+  @param {Number} a - numerator
+  @param {Number} b - denominator
+*/
+const getDivision = (a, b) => a / b;
+
+/**
+ * Descriptions
+  @param {Number} a - first multiplier
+  @param {Number} b - second multiplier
+*/
+const getMultiplication = (a, b) => a * b;
+
+/**
+ * Descriptions
+  @param {Number} n - number
+*/
+const getFactorial = n => {
+  return n != 1 ? n * getFactorial(n - 1) : 1;
+};
+
+/**
+ * Descriptions
+  @param {Number} n - number
+*/
+const getLogarithm = n => {
+  return n < 0 ? 0 : Math.log10(n);
+};
+
+/**
+ * Descriptions
+  @param {Number} n - number, must be positive
+*/
+const getSqrt = n => Math.sqrt(n);
+
+/**
+ * Descriptions
+  @param {Number} n - base
+  @param {Number} y - power
+*/
+const getPow = (n, y) => Math.pow(n, y);
+
+/**
+ * Descriptions
+  @param {Number} n - statement
+  @param {Number} y - base
+*/
+const getSqrtByBase = (n, y) => Math.round(getPow(n, 1 / y));
+
+
 // CONCATENATED MODULE: ./src/js/helpers/helpers.js
+
 
 
 /**
@@ -117,12 +184,8 @@ const deleteSpace = number => {
 */
 const performOperation = (operand, prevValue, currentValue) => {
     let result = '';
-    getSum = convertStringToNumber(getSum);
-    getSubtraction = convertStringToNumber(getSubtraction);
-    getDivision = convertStringToNumber(getDivision);
-    getMultiplication = convertStringToNumber(getMultiplication);
-    getPow = convertStringToNumber(getPow);
-    getSqrtByBase = convertStringToNumber(getSqrtByBase);
+    prevValue = parseFloat(deleteSpace(prevValue));
+    currentValue = parseFloat(deleteSpace(currentValue));
     switch (operand) {
         case '+':
             result = getSum(prevValue, currentValue);
@@ -147,94 +210,6 @@ const performOperation = (operand, prevValue, currentValue) => {
     }
     return String(result);
 };
-
-function convertStringToNumber(f) {
-    return function () {
-        let newArgs = [];
-        for (var i = 0; i < arguments.length; i++) {
-            newArgs.push(parseFloat(deleteSpace(arguments[i])));
-        }
-        return f.apply(null, newArgs);
-    };
-}
-
-/**
- * Descriptions
-  @param {Number} a - first term
-  @param {Number} b - second term
-*/
-function getSum(a, b) {
-    return a + b;
-}
-
-/**
- * Descriptions
-  @param {Number} a - number which is substracted
-  @param {Number} b - subtrahend
-*/
-function getSubtraction(a, b) {
-    return a - b;
-}
-
-/**
- * Descriptions
-  @param {Number} a - numerator
-  @param {Number} b - denominator
-*/
-function getDivision(a, b) {
-    return a / b;
-}
-
-/**
- * Descriptions
-  @param {Number} a - first multiplier
-  @param {Number} b - second multiplier
-*/
-function getMultiplication(a, b) {
-    return a * b;
-}
-
-/**
- * Descriptions
-  @param {Number} n - number
-*/
-function getFactorial(n) {
-    return n != 1 ? n * getFactorial(n - 1) : 1;
-}
-
-/**
- * Descriptions
-  @param {Number} n - number
-*/
-function getLogarithm(n) {
-    return n < 0 ? 0 : Math.log10(n);
-}
-
-/**
- * Descriptions
-  @param {Number} n - number, must be positive
-*/
-function getSqrt(n) {
-    return Math.sqrt(n);
-}
-
-/**
- * Descriptions
-  @param {Number} n - base
-  @param {Number} y - power
-*/
-function getPow(n, y) {
-    return Math.pow(n, y);
-}
-
-/**
- * Descriptions
-  @param {Number} n - statement
-  @param {Number} y - base
-*/
-function getSqrtByBase(n, y) {
-    return Math.round(getPow(n, 1 / y));
-}
 // CONCATENATED MODULE: ./src/js/helpers/util.js
 /**
  * Checks the string for a number
@@ -262,18 +237,18 @@ const getElementWidth = element => {
 
 
 function Display(selector) {
-  this.displayWidth = null;
-  this.resultWidth = null;
-  this.historyWidth = null;
-  this.scale = 1;
+  let displayWidth = null;
+  let resultWidth = null;
+  let historyWidth = null;
+  let scale = 1;
   const display = document.querySelector(selector + " .calc__display");
   const result = document.querySelector(selector + " .calc__result");
   const history = document.querySelector(selector + " .calc__history");
 
   this.init = function () {
-    this.displayWidth = getElementWidth(display);
-    this.resultWidth = getElementWidth(result);
-    this.historyWidth = getElementWidth(result);
+    displayWidth = getElementWidth(display);
+    resultWidth = getElementWidth(result);
+    historyWidth = getElementWidth(result);
   };
 
   /** @function changeElementScale
@@ -285,21 +260,21 @@ function Display(selector) {
         width = null;
     if (element.classList.contains("calc__result")) {
       type = result;
-      width = this.resultWidth;
+      width = resultWidth;
     } else {
       type = history;
-      width = this.historyWidth;
+      width = historyWidth;
     }
     if (actualResultWidth !== width) {
       width = actualResultWidth;
     }
-    let actualScale = this.displayWidth / width;
+    let actualScale = displayWidth / width;
     if (actualScale < 1) {
-      this.scale = actualScale;
+      scale = actualScale;
     } else {
-      this.scale = 1;
+      scale = 1;
     }
-    type.style.transform = `scale(${this.scale}, ${this.scale})`;
+    type.style.transform = `scale(${scale}, ${scale})`;
   };
 }
 // CONCATENATED MODULE: ./src/js/calc/menu.js
@@ -316,7 +291,87 @@ const menu = {
     }
 };
 /* harmony default export */ var calc_menu = (menu);
+// CONCATENATED MODULE: ./src/js/calc/history.js
+
+function History(selector) {
+    let result = [];
+
+    const historyBlock = document.querySelector(selector + ' .calc__history');
+
+    this.add = function (text, ...rest) {
+        result.push(text, ...rest);
+        printHistory();
+    };
+    this.remove = function () {
+        result.pop();
+    };
+    this.clear = function () {
+        result = [];
+        printHistory();
+    };
+    this.get = function () {
+        return result.join(' ');
+    };
+    function filterHistory() {
+        let utilArray = [];
+        result.forEach((value, index) => {
+            if (value.search(/log|fact|√/) !== -1) {
+                utilArray.push(index);
+            } else if (value.startsWith('^')) {
+                utilArray.push(index + 1);
+            }
+        });
+        //if after log/fact/etc number, delete this
+        utilArray.forEach(value => {
+            isNumeric(result[value + 1]) ? result.splice(value + 1, 1) : null;
+        });
+        utilArray = [];
+    }
+    function printHistory() {
+        filterHistory();
+        historyBlock.innerHTML = result.join(' ');
+    }
+}
+
+/* harmony default export */ var calc_history = (History);
+// CONCATENATED MODULE: ./src/js/calc/journal.js
+function Journal(selector) {
+    let result = '';
+
+    const journal = document.querySelector(`${selector} .journal`);
+    const showButton = document.querySelector(`${selector} .log`);
+    const clearButton = document.querySelector(`${selector} .journal__clear`);
+
+    showButton.addEventListener('click', toggleJournal);
+    clearButton.addEventListener('click', clearJournal);
+
+    function toggleJournal() {
+        this.closest('.calc').classList.toggle('calc--journal-open');
+    };
+    function clearJournal() {
+        let list = journal.querySelector('.journal__list');
+        list.innerHTML = '';
+        let item = document.createElement('li');
+        item.className = 'journal__item journal__item--empty';
+        item.textContent = 'There is no journal yet';
+        list.appendChild(item);
+    }
+    this.add = function (string) {
+        let list = journal.querySelector('.journal__list');
+        if (list.firstElementChild.classList.contains('journal__item--empty')) {
+            list.innerHTML = '';
+        }
+        let item = document.createElement('li');
+        item.className = 'journal__item';
+        item.innerHTML = string;
+        list.insertBefore(item, list.children[0]);
+    };
+}
+
+/* harmony default export */ var calc_journal = (Journal);
 // CONCATENATED MODULE: ./src/js/calc/calc.js
+
+
 
 
 
@@ -328,26 +383,29 @@ function Calculator(selector) {
     let waitingForOperand = true;
     let buffer = '';
     let scientificBuffer = '';
-    let history = [];
     let result = '0';
     let operand = '';
     let scientificOperand = '';
 
     let display = new Display(selector);
+    let history = new calc_history(selector);
+    let journal = new calc_journal(selector);
 
     this.init = function () {
         let buttons = document.querySelectorAll(`${selector} .button`);
         const typeSwitcher = document.querySelector(`${selector} .typeSwitcher`);
         const themeSwitcher = document.querySelector(`${selector} .themeSwitcher`);
         const burger = document.querySelector(`${selector} .burger`);
+        const log = document.querySelector(`${selector} .log`);
 
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', addToCalculate);
         }
-        console.log(burger);
+
         typeSwitcher.addEventListener('change', calc_menu.changeCalcType);
         themeSwitcher.addEventListener('change', calc_menu.changeCalcTheme);
         burger.addEventListener('click', calc_menu.toggleMenu);
+        log.addEventListener('click', journal.toggleJournal);
         display.init();
     };
     function addToCalculate() {
@@ -378,23 +436,21 @@ function Calculator(selector) {
                 case '√':
                     calcSqrt();
                     break;
-                case 'xy':
-                    addScientificOperand(text);
-                    break;
                 case '√y':
+                case 'xy':
                     addScientificOperand(text);
                     break;
                 default:
                     addOperand(text);
             }
-            changeClearButton();
         }
+        changeClearButton();
     }
     /** @function addDigit
      * @param {string} digit - The number is displayed on the screen
      */
     function addDigit(digit) {
-        if (waitingForOperand) {
+        if (waitingForOperand && operand !== '=') {
             if (result === '0') {
                 result = digit;
             } else {
@@ -412,72 +468,40 @@ function Calculator(selector) {
         display.action(resultString);
     }
     function addOperand(nextOperand) {
-        updateHistory(nextOperand);
         if (scientificBuffer !== '') {
+            if (scientificOperand === 'xy') {
+                history.add(scientificBuffer, '^', result);
+            } else if (scientificOperand === '√y') {
+                history.add(scientificBuffer, '^', ` 1/${result}`);
+            }
             result = performOperation(scientificOperand, scientificBuffer, result);
             scientificBuffer = '';
             printResult();
         }
         if (waitingForOperand) {
             if (buffer !== '') {
+                history.add(result, nextOperand);
                 result = performOperation(operand, buffer, result);
                 buffer = result;
                 printResult();
             } else {
                 buffer = result;
+                history.add(result, nextOperand);
             }
             operand = nextOperand;
             waitingForOperand = false;
         } else {
             operand = nextOperand;
+            history.remove();
+            history.add(operand);
         }
-    }
-    function updateHistory(sign) {
-        let text = document.querySelector(`${selector} .calc__result`).textContent;
-        switch (sign) {
-            case '+':
-            case '-':
-            case '÷':
-            case 'x':
-            case 'xy':
-            case '√y':
-                if (waitingForOperand || history.length === 0) {
-                    let lastElem = history[history.length - 1];
-                    if (lastElem && lastElem.length > 2) {
-                        if (sign === 'xy') {
-                            history.push('^');
-                        } else if (sign === '√y') {
-                            history.push('√');
-                        } else {
-                            history.push(sign);
-                        }
-                    } else {
-                        if (sign === 'xy') {
-                            history.push(text, '^');
-                        } else if (sign === '√y') {
-                            history.push('√', text);
-                        } else {
-                            history.push(text, sign);
-                        }
-                    }
-                } else {
-                    history.pop();
-                    if (sign === 'xy') {
-                        history.push('^');
-                    } else if (sign === '√y') {
-                        history.push('√');
-                    } else {
-                        history.push(sign);
-                    }
-                }
-                break;
-            case '=':
-                history = [];
-                break;
-            default:
-                history.push(sign);
+        if (nextOperand === '=') {
+            history.add(result);
+            journal.add(history.get());
+            history.clear();
+            waitingForOperand = true;
+            buffer = '';
         }
-        printHistory();
     }
     /**
      * Push item in history depends of sign
@@ -488,16 +512,9 @@ function Calculator(selector) {
      * // push result, "+"
      * updateHistory("+")
      */
-    function printHistory() {
-        const historyString = document.querySelector(`${selector} .calc__history`);
-        if (history.length > 9) history.splice(0, 2);
-        historyString.innerHTML = history.join(' ');
-        display.action(historyString);
-    }
     function addScientificOperand(nextOperand) {
         scientificBuffer = result;
         scientificOperand = nextOperand;
-        updateHistory(nextOperand);
         waitingForOperand = false;
     }
     function clearResult() {
@@ -506,12 +523,11 @@ function Calculator(selector) {
             operand = '';
             scientificOperand = '';
             scientificBuffer = '';
-            history = [];
             waitingForOperand = true;
+            history.clear();
         } else {
             result = '0';
         }
-        printHistory();
         printResult();
     }
     function calcPercentage() {
@@ -524,23 +540,18 @@ function Calculator(selector) {
         printResult();
     }
     function calcFactorial() {
-        updateHistory(`fact(${result})`);
+        history.add(`fact(${result})`);
         result = String(getFactorial(result));
         printResult();
     }
     function calcLogarithm() {
-        updateHistory(`log(${result})`);
+        history.add(`log(${result})`);
         result = String(getLogarithm(result));
         printResult();
     }
     function calcSqrt() {
-        updateHistory(`√(${result})`);
+        history.add(`√${result}`);
         result = String(getSqrt(result));
-        printResult();
-    }
-    function calcSquare() {
-        updateHistory(`sqr(${result})`);
-        result = String(result * result);
         printResult();
     }
     function changeSign() {
@@ -556,16 +567,14 @@ function Calculator(selector) {
         printResult();
     }
     function changeClearButton() {
-        const button = document.querySelector(`${selector} .clearButton`);
+        let button = document.querySelector(`${selector} .clearButton`);
         button.innerHTML = result === '0' ? 'AC' : 'C';
     }
 }
 // EXTERNAL MODULE: ./src/style.scss
-var style = __webpack_require__(14);
+var style = __webpack_require__(16);
 
 // CONCATENATED MODULE: ./src/app.js
-
-
 
 //styles
 
@@ -578,7 +587,7 @@ calcTwo.init();
 
 /***/ }),
 
-/***/ 14:
+/***/ 16:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

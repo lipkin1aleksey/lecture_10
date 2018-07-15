@@ -1,6 +1,4 @@
 import {Calculator} from "./js/calc/calc";
-import "./js/calc/display";
-import "./js/calc/menu";
 //styles
 import "./style.scss";
 

@@ -6,14 +6,25 @@ This is a simple calculator application based on iOS calc-app.
 
 There is are several design patterns used, such as:
 ```
-1) Decorator: code\src\js\helpers\helpers.js line 43... decorates the function, removes spaces, converts to a number
+1) Simple Factory: code\src\js\calc.js
 ```
 ```
 2) Facade: code\src\app.js line 11-12. Simply call Calculator.init() to start working with calculator
 ```
 ```
-3) Singleton: code\src\js\calc\menu.js
+3) Singleton: code\src\js\calc\menu.js; 
 ```
+
+##About code style
+
+There are some of ES6 features, which I used for this project:
+
+1) Variable definition with let and const
+2) Arrow function, cause if you doesn't need 'this' for function it easy to read (for example array.forEach(() => {}))
+3) Spread operator : code\src\js\calc\history.js line 7 - you can push one word or several in array for once
+4) Str.startsWith():  code\src\js\calc\history.js line 26 for easily search occurances
+
+And many other features!
 
 
 ## Warning
@@ -22,6 +33,7 @@ Please don't merge gh-pages brunch with any other, it was created only for demon
 
 ## Changelog
 
+v2.0 Add journal, major fix file structure and bugs;
 v1.2 Major changes in file structure, now you can simple init any numbers of calculators by new Calculator.init()  
 v1.1 Add scientific type, display history and minor fixes in design.
 

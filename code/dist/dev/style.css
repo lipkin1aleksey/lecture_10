@@ -199,6 +199,8 @@ a {
     background: #cfd0d2; }
   .theme-dark .menu__content {
     background: #1C2128; }
+  .theme-dark .journal {
+    color: #284b63; }
 
 .brand {
   display: -webkit-box;
@@ -349,6 +351,38 @@ a {
     padding-left: 16px;
     padding-right: 8px; }
 
+.log__button {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  background: url(icons/log.png) center no-repeat; }
+
+.journal {
+  width: 100%;
+  height: 100%;
+  background: #fbfbff;
+  -webkit-transition: .2s ease-in;
+  transition: .2s ease-in; }
+  .journal__content {
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    padding: 16px; }
+  .journal__list {
+    list-style: decimal;
+    list-style-position: inside; }
+  .journal__item {
+    margin-bottom: 8px;
+    font-size: 14px; }
+  .journal__clear {
+    position: absolute;
+    cursor: pointer;
+    right: 16px;
+    bottom: 16px;
+    width: 32px;
+    height: 32px;
+    background: url(icons/trash.png) center no-repeat; }
+
 .calc {
   max-width: 280px;
   -webkit-box-shadow: 0px 2px 20px 1px #b3b3b3;
@@ -389,6 +423,9 @@ a {
     position: absolute;
     top: 16px;
     left: 16px; }
+  .calc__log {
+    position: absolute;
+    left: 16px; }
   .calc__menu {
     position: absolute;
     opacity: 0;
@@ -398,6 +435,7 @@ a {
     width: 50%;
     height: 100%; }
   .calc__panel {
+    position: relative;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -414,6 +452,10 @@ a {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex; }
+  .calc__journal {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0; }
   .calc__operators-buttons--scientific {
     display: none; }
   .calc--menu-open .calc__menu {
@@ -423,6 +465,10 @@ a {
     visibility: visible; }
     .calc--menu-open .calc__menu:hover {
       opacity: 1; }
+  .calc--journal-open .calc__journal {
+    top: 0;
+    opacity: 1;
+    visibility: visible; }
   .calc--scientific {
     max-width: 350px; }
     .calc--scientific .calc__operators-buttons--scientific {
