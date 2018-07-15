@@ -1,4 +1,4 @@
-# Calculator v.1.2
+# Calculator v.2.0
 
 This is a simple calculator application based on iOS calc-app.
 
