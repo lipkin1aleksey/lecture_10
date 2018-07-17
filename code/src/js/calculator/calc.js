@@ -1,11 +1,11 @@
-import { performOperation } from '../helpers/helpers';
-import { getFactorial, getLogarithm, getSqrt } from '../helpers/calculations';
-import { addSpace } from '../helpers/format';
-import { isNumeric } from '../helpers/util';
-import { Display } from './display';
-import menu from './menu';
-import History from "./history";
-import Journal from './journal';
+import { performOperation } from './helpers/helpers';
+import { getFactorial, getLogarithm, getSqrt } from './helpers/calculations';
+import { addSpace } from './helpers/format';
+import { isNumeric } from './helpers/util';
+import { Display } from './core/display';
+import menu from './core/menu';
+import History from "./core/history";
+import Journal from './core/journal';
 
 export function Calculator(selector) {
     let waitingForOperand = true;
@@ -41,7 +41,7 @@ export function Calculator(selector) {
         display.init();
     };
     function addToCalculate() {
-        let text = this.textContent;
+        let text = this.textContent.replace(/\s+/, "").trim();
         if (isNumeric(text)) {
             addDigit(text);
         } else {
@@ -119,6 +119,7 @@ export function Calculator(selector) {
         if (waitingForOperand) {
             if (buffer !== '') {
                 history.add(result, nextOperand);
+                console.log(operand, buffer, result);
                 result = performOperation(operand, buffer, result);
                 buffer = result;
                 printResult();
@@ -171,6 +172,10 @@ export function Calculator(selector) {
     function calcPercentage() {
         if (buffer === '' || buffer === '0') {
             result = 0;
+        } else if (!waitingForOperand) {
+            operand = '%';
+            history.remove();
+            history.add('%');
         } else {
             result = (buffer * parseFloat(result)) / 100;
         }

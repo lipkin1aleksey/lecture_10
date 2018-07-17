@@ -3,6 +3,10 @@
         width: 24px;
         height: 24px;
         cursor: pointer;
-        background: url("images/icons/log.png") center no-repeat;
+        background: url("../images/icons/log.png") center no-repeat;
+    }
+    &__tooltip {
+        left: 10px;
+        top: 32px;
     }
 }

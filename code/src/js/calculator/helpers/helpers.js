@@ -1,11 +1,12 @@
-import { addSpace, deleteSpace } from './format';
+import { deleteSpace } from './format';
 import {
     getSum,
     getSubtraction,
     getDivision,
     getMultiplication,
     getPow,
-    getSqrtByBase
+    getSqrtByBase,
+    getPercent
 } from './calculations';
 
 /**
@@ -36,6 +37,9 @@ export const performOperation = (operand, prevValue, currentValue) => {
             break;
         case '√y':
             result = getSqrtByBase(prevValue, currentValue);
+            break;
+        case '%':
+            result = getPercent(prevValue, currentValue);
             break;
         default:
             result = parseFloat(prevValue);

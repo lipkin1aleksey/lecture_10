@@ -1,0 +1,27 @@
+.tooltip {
+    position: absolute;
+    padding: 4px;
+    background: $white;
+    border: 1px solid #0b4f6c;
+    border-radius: 4px;
+    z-index: 20;
+    transition: all .2s;
+    visibility: hidden;
+    opacity: 0;
+    &__content {
+        font-size: 14px;
+        color: #0b4f6c;
+    }
+    &__text {
+        white-space: nowrap;
+    }
+}
+.tooltip-switch {
+
+    &:hover {
+        .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+}

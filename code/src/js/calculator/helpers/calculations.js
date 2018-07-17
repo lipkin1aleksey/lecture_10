@@ -62,6 +62,8 @@ const getPow = (n, y) => Math.pow(n, y);
 */
 const getSqrtByBase = (n, y) => Math.round(getPow(n, 1 / y));
 
+const getPercent = (x, y) => x * parseFloat(y) / 100;
+
 export {
     getSum,
     getSubtraction,
@@ -71,5 +73,6 @@ export {
     getLogarithm,
     getSqrt,
     getPow,
-    getSqrtByBase
+    getSqrtByBase,
+    getPercent
 };

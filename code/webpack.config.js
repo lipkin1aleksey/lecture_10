@@ -6,19 +6,18 @@ const autoprefixer = require('autoprefixer');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 
 var customConfig = function webpackConfig() {
-    const isProd = process.env.NODE_ENV === 'production';
-    const outputPath = isProd ? 'dist/prod/' : 'dist/dev/';
-    const TITLE = isProd ? 'Production mode' : 'Development mode';
+    const PROD = process.env.NODE_ENV === 'production';
+    const outputPath = PROD ? 'dist/prod/' : 'dist/dev/';
 
     var config = Object.assign({});
-    config.entry = './src/app.js';
+    config.entry = './src/js/app.js';
 
     config.output = {
         path: path.resolve(__dirname, outputPath),
         filename: 'bundle.js'
     };
     config.optimization = {
-      minimize: isProd
+        minimize: PROD
     };
     config.module = {
         rules: [
@@ -36,7 +35,7 @@ var customConfig = function webpackConfig() {
                     use: [
                         {
                             loader: 'css-loader',
-                            options: { minimize: isProd }
+                            options: { minimize: PROD }
                         },
                         {
                             loader: 'postcss-loader',
@@ -81,7 +80,7 @@ var customConfig = function webpackConfig() {
     config.plugins = [
         new ExtractTextPlugin('style.css'),
         new HtmlWebpackPlugin({
-            title: TITLE,
+            title: PROD ? 'Production mode' : 'Development mode',
             inject: false,
             hash: true,
             template: './src/index.html',

@@ -124,6 +124,36 @@ a {
         -ms-flex-flow: row wrap;
             flex-flow: row wrap; }
 
+.theme-dark {
+  background: #20262E;
+  color: #cfd0d2; }
+  .theme-dark .header,
+  .theme-dark .footer {
+    background: #1C2128; }
+  .theme-dark .calc {
+    -webkit-box-shadow: none;
+            box-shadow: none; }
+    .theme-dark .calc__display {
+      background: #0b141a; }
+    .theme-dark .calc__result {
+      color: #cfd0d2; }
+  .theme-dark .button {
+    background: #284b63;
+    border-color: #192f3f;
+    color: #cfd0d2; }
+    .theme-dark .button:active {
+      background: radial-gradient(ellipse at center, #284b63 0%, teal 100%); }
+    .theme-dark .button--dark {
+      background: #213d51; }
+  .theme-dark .burger__line {
+    background: #cfd0d2; }
+  .theme-dark .burger:before, .theme-dark .burger:after {
+    background: #cfd0d2; }
+  .theme-dark .menu__content {
+    background: #1C2128; }
+  .theme-dark .journal {
+    color: #284b63; }
+
 .title {
   font-family: "Roboto Medium", sans-serif;
   font-size: 24px;
@@ -172,35 +202,26 @@ a {
     .checkbox-wrapper input[type='checkbox']:checked + .checkbox:before {
       left: 11px; }
 
-.theme-dark {
-  background: #20262E;
-  color: #cfd0d2; }
-  .theme-dark .header,
-  .theme-dark .footer {
-    background: #1C2128; }
-  .theme-dark .calc {
-    -webkit-box-shadow: none;
-            box-shadow: none; }
-    .theme-dark .calc__display {
-      background: #0b141a; }
-    .theme-dark .calc__result {
-      color: #cfd0d2; }
-  .theme-dark .button {
-    background: #284b63;
-    border-color: #192f3f;
-    color: #cfd0d2; }
-    .theme-dark .button:active {
-      background: radial-gradient(ellipse at center, #284b63 0%, teal 100%); }
-    .theme-dark .button--dark {
-      background: #213d51; }
-  .theme-dark .burger__line {
-    background: #cfd0d2; }
-  .theme-dark .burger:before, .theme-dark .burger:after {
-    background: #cfd0d2; }
-  .theme-dark .menu__content {
-    background: #1C2128; }
-  .theme-dark .journal {
-    color: #284b63; }
+.tooltip {
+  position: absolute;
+  padding: 4px;
+  background: #fbfbff;
+  border: 1px solid #0b4f6c;
+  border-radius: 4px;
+  z-index: 20;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  visibility: hidden;
+  opacity: 0; }
+  .tooltip__content {
+    font-size: 14px;
+    color: #0b4f6c; }
+  .tooltip__text {
+    white-space: nowrap; }
+
+.tooltip-switch:hover .tooltip {
+  visibility: visible;
+  opacity: 1; }
 
 .brand {
   display: -webkit-box;
@@ -357,12 +378,16 @@ a {
   cursor: pointer;
   background: url(icons/log.png) center no-repeat; }
 
+.log__tooltip {
+  left: 10px;
+  top: 32px; }
+
 .journal {
   width: 100%;
   height: 100%;
   background: #fbfbff;
-  -webkit-transition: .2s ease-in;
-  transition: .2s ease-in; }
+  -webkit-transition: 0.2s ease-in;
+  transition: 0.2s ease-in; }
   .journal__content {
     overflow-y: auto;
     width: 100%;
@@ -374,14 +399,20 @@ a {
   .journal__item {
     margin-bottom: 8px;
     font-size: 14px; }
+    .journal__item--empty {
+      list-style: none; }
   .journal__clear {
     position: absolute;
-    cursor: pointer;
     right: 16px;
-    bottom: 16px;
+    bottom: 16px; }
+  .journal__button {
+    cursor: pointer;
     width: 32px;
     height: 32px;
     background: url(icons/trash.png) center no-repeat; }
+  .journal__tooltip {
+    top: -16px;
+    right: 32px; }
 
 .calc {
   max-width: 280px;
@@ -454,8 +485,12 @@ a {
     display: flex; }
   .calc__journal {
     position: absolute;
+    top: 0;
+    left: 0;
     visibility: hidden;
-    opacity: 0; }
+    opacity: 0;
+    -webkit-box-shadow: 4px 2px 12px 0px #b3b3b3;
+            box-shadow: 4px 2px 12px 0px #b3b3b3; }
   .calc__operators-buttons--scientific {
     display: none; }
   .calc--menu-open .calc__menu {
@@ -467,6 +502,7 @@ a {
       opacity: 1; }
   .calc--journal-open .calc__journal {
     top: 0;
+    left: 100%;
     opacity: 1;
     visibility: visible; }
   .calc--scientific {
@@ -484,6 +520,18 @@ a {
         width: 112px; }
       .calc--scientific .button sup {
         top: 16px; } }
+
+@media (max-width: 768px) {
+  .calc__journal {
+    left: 0;
+    top: 100px;
+    height: calc(100% - 100px);
+    -webkit-box-shadow: none;
+            box-shadow: none; }
+  .calc--journal-open .calc__journal {
+    left: 0;
+    top: 100px;
+    height: calc(100% - 100px); } }
 
 .copyright__text {
   font-family: "Roboto Medium", sans-serif;

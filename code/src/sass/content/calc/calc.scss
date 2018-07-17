@@ -59,8 +59,11 @@
     }
     &__journal {
         position: absolute;
+        top: 0;
+        left: 0;
         visibility: hidden;
         opacity: 0;
+        box-shadow: 4px 2px 12px 0px #b3b3b3;
     }
     &__operators-buttons {
         &--scientific {
@@ -81,6 +84,7 @@
     &--journal-open {
       .calc__journal {
         top: 0;
+        left: 100%;
         opacity: 1;
         visibility: visible;
       }
@@ -108,6 +112,22 @@
             sup {
                 top: 16px;
             }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .calc__journal {
+        left: 0;
+        top: 100px;
+        height: calc(100% - 100px);
+        box-shadow: none;
+    }
+    .calc--journal-open {
+        .calc__journal {
+            left: 0;
+            top: 100px;
+            height: calc(100% - 100px);
         }
     }
 }

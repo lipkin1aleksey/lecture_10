@@ -92,7 +92,7 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./src/js/helpers/format.js
+// CONCATENATED MODULE: ./src/js/calculator/helpers/format.js
 /**
  * @param {(Number|String)} number
  */
@@ -106,7 +106,7 @@ const addSpace = number => {
 const deleteSpace = number => {
     return String(number).replace(/\s/g, '');
 };
-// CONCATENATED MODULE: ./src/js/helpers/calculations.js
+// CONCATENATED MODULE: ./src/js/calculator/helpers/calculations.js
 /**
  * Descriptions
   @param {Number} a - first term
@@ -171,8 +171,10 @@ const getPow = (n, y) => Math.pow(n, y);
 */
 const getSqrtByBase = (n, y) => Math.round(getPow(n, 1 / y));
 
+const getPercent = (x, y) => x * parseFloat(y) / 100;
 
-// CONCATENATED MODULE: ./src/js/helpers/helpers.js
+
+// CONCATENATED MODULE: ./src/js/calculator/helpers/helpers.js
 
 
 
@@ -205,12 +207,15 @@ const performOperation = (operand, prevValue, currentValue) => {
         case '√y':
             result = getSqrtByBase(prevValue, currentValue);
             break;
+        case '%':
+            result = getPercent(prevValue, currentValue);
+            break;
         default:
             result = parseFloat(prevValue);
     }
     return String(result);
 };
-// CONCATENATED MODULE: ./src/js/helpers/util.js
+// CONCATENATED MODULE: ./src/js/calculator/helpers/util.js
 /**
  * Checks the string for a number
  * @example
@@ -233,7 +238,7 @@ const getElementWidth = element => {
     let computedStyle = getComputedStyle(element);
     return fullWidth - parseFloat(computedStyle.paddingLeft) - parseFloat(computedStyle.paddingRight);
 };
-// CONCATENATED MODULE: ./src/js/calc/display.js
+// CONCATENATED MODULE: ./src/js/calculator/core/display.js
 
 
 function Display(selector) {
@@ -277,7 +282,7 @@ function Display(selector) {
     type.style.transform = `scale(${scale}, ${scale})`;
   };
 }
-// CONCATENATED MODULE: ./src/js/calc/menu.js
+// CONCATENATED MODULE: ./src/js/calculator/core/menu.js
 const menu = {
     toggleMenu: function () {
         this.classList.toggle('burger--open');
@@ -290,8 +295,8 @@ const menu = {
         this.closest('.calc').classList.toggle('calc--scientific');
     }
 };
-/* harmony default export */ var calc_menu = (menu);
-// CONCATENATED MODULE: ./src/js/calc/history.js
+/* harmony default export */ var core_menu = (menu);
+// CONCATENATED MODULE: ./src/js/calculator/core/history.js
 
 function History(selector) {
     let result = [];
@@ -333,8 +338,8 @@ function History(selector) {
     }
 }
 
-/* harmony default export */ var calc_history = (History);
-// CONCATENATED MODULE: ./src/js/calc/journal.js
+/* harmony default export */ var core_history = (History);
+// CONCATENATED MODULE: ./src/js/calculator/core/journal.js
 function Journal(selector) {
     let result = '';
 
@@ -368,8 +373,8 @@ function Journal(selector) {
     };
 }
 
-/* harmony default export */ var calc_journal = (Journal);
-// CONCATENATED MODULE: ./src/js/calc/calc.js
+/* harmony default export */ var core_journal = (Journal);
+// CONCATENATED MODULE: ./src/js/calculator/calc.js
 
 
 
@@ -388,8 +393,8 @@ function Calculator(selector) {
     let scientificOperand = '';
 
     let display = new Display(selector);
-    let history = new calc_history(selector);
-    let journal = new calc_journal(selector);
+    let history = new core_history(selector);
+    let journal = new core_journal(selector);
 
     this.init = function () {
         let buttons = document.querySelectorAll(`${selector} .button`);
@@ -402,14 +407,14 @@ function Calculator(selector) {
             buttons[i].addEventListener('click', addToCalculate);
         }
 
-        typeSwitcher.addEventListener('change', calc_menu.changeCalcType);
-        themeSwitcher.addEventListener('change', calc_menu.changeCalcTheme);
-        burger.addEventListener('click', calc_menu.toggleMenu);
+        typeSwitcher.addEventListener('change', core_menu.changeCalcType);
+        themeSwitcher.addEventListener('change', core_menu.changeCalcTheme);
+        burger.addEventListener('click', core_menu.toggleMenu);
         log.addEventListener('click', journal.toggleJournal);
         display.init();
     };
     function addToCalculate() {
-        let text = this.textContent;
+        let text = this.textContent.replace(/\s+/, "").trim();
         if (isNumeric(text)) {
             addDigit(text);
         } else {
@@ -481,6 +486,7 @@ function Calculator(selector) {
         if (waitingForOperand) {
             if (buffer !== '') {
                 history.add(result, nextOperand);
+                console.log(operand, buffer, result);
                 result = performOperation(operand, buffer, result);
                 buffer = result;
                 printResult();
@@ -533,6 +539,10 @@ function Calculator(selector) {
     function calcPercentage() {
         if (buffer === '' || buffer === '0') {
             result = 0;
+        } else if (!waitingForOperand) {
+            operand = '%';
+            history.remove();
+            history.add('%');
         } else {
             result = buffer * parseFloat(result) / 100;
         }
@@ -571,19 +581,19 @@ function Calculator(selector) {
         button.innerHTML = result === '0' ? 'AC' : 'C';
     }
 }
-// EXTERNAL MODULE: ./src/style.scss
+// EXTERNAL MODULE: ./src/sass/style.scss
 var style = __webpack_require__(16);
 
-// CONCATENATED MODULE: ./src/app.js
+// CONCATENATED MODULE: ./src/js/app.js
 
 //styles
 
 
 let calcOne = new Calculator("#calc-one");
-let calcTwo = new Calculator("#calc-two");
+// let calcTwo = new Calculator("#calc-two");
 
 calcOne.init();
-calcTwo.init();
+// calcTwo.init();
 
 /***/ }),
 
