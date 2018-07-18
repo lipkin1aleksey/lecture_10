@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" />
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="container">
+                <div class="brand">
+                    <a href="/" class="brand__logo"></a>
+                    <h1 class="brand__title title">
+                        Development mode
+                    </h1>
+                </div>
+            </div>
+        </header>
+        <main class="main">
+            <div class="container container--main">
+                <div class="calc" id="calc-one">
+                    <div class="calc__display">
+                        <span class="calc__history"></span>
+                        <span class="calc__result">0</span>
+                        <div class="calc__burger burger">
+                            <span class="burger__line"></span>
+                        </div>
+                        <div class="calc__log log tooltip-switch">
+                            <div class="log__button"></div>
+                            <div class="log__tooltip tooltip">
+                                <div class="tooltip__content">
+                                    <p class="tooltip__text">Switch Journal</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="calc__menu menu">
+                        <div class="menu__content">
+                            <div class="menu__switcher switcher">
+                                <label class="checkbox-wrapper">
+                                    <input class="themeSwitcher" type="checkbox" name="theme-dark">
+                                    <span class="checkbox"></span>
+                                    <span class="switcher__text">Dark theme</span>
+                                </label>
+                            </div>
+                            <div class="menu__switcher switcher">
+                                <label class="checkbox-wrapper">
+                                    <input class="typeSwitcher" type="checkbox" name="calc-type">
+                                    <span class="checkbox"></span>
+                                    <span class="switcher__text">Scientific</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="calc__panel">
+                        <div class="calc__digit-buttons">
+                            <button class="calc__button button button--wide">0</button>
+                            <button class="calc__button button">.</button>
+                            <button class="calc__button button">1</button>
+                            <button class="calc__button button">2</button>
+                            <button class="calc__button button">3</button>
+                            <button class="calc__button button">4</button>
+                            <button class="calc__button button">5</button>
+                            <button class="calc__button button">6</button>
+                            <button class="calc__button button">7</button>
+                            <button class="calc__button button">8</button>
+                            <button class="calc__button button">9</button>
+                            <div class="calc__format-buttons">
+                                <button class="calc__button button button--dark clearButton">AC</button>
+                                <button class="calc__button button button--dark">±</button>
+                                <button class="calc__button button button--dark">%</button>
+                            </div>
+                        </div>
+                        <div class="calc__operators-buttons calc__operators-buttons--scientific">
+                            <button class="calc__button button button--dark">n!</button>
+                            <button class="calc__button button button--dark">log</button>
+                            <button class="calc__button button button--dark">√</button>
+                            <button class="calc__button button button--dark">√
+                                <sub>y</sub>
+                            </button>
+                            <button class="calc__button button button--dark">x
+                                <sup>y</sup>
+                            </button>
+                        </div>
+                        <div class="calc__operators-buttons">
+                            <button class="calc__button button button--dark">÷</button>
+                            <button class="calc__button button button--dark">x</button>
+                            <button class="calc__button button button--dark">-</button>
+                            <button class="calc__button button button--dark">+</button>
+                            <button class="calc__button button button--dark">=</button>
+                        </div>
+                    </div>
+                    <div class="calc__journal journal">
+                        <div class="journal__content">
+                            <ol class="journal__list">
+                                <li class="journal__item journal__item--empty">There is no journal yet.</li>
+                            </ol>
+                            <div class="journal__clear tooltip-switch">
+                                <div class="journal__button"></div>
+                                <div class="journal__tooltip tooltip">
+                                    <div class="tooltip__content">
+                                        <p class="tooltip__text">Clear Journal</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="calc" id="calc-two">
+                    <div class="calc__display">
+                        <span class="calc__history"></span>
+                        <span class="calc__result">0</span>
+                        <div class="calc__burger burger">
+                            <span class="burger__line"></span>
+                        </div>
+                        <div class="calc__log log tooltip-switch">
+                            <div class="log__button"></div>
+                            <div class="log__tooltip tooltip">
+                                <div class="tooltip__content">
+                                    <p class="tooltip__text">Switch Journal</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="calc__menu menu">
+                        <div class="menu__content">
+                            <div class="menu__switcher switcher">
+                                <label class="checkbox-wrapper">
+                                    <input class="themeSwitcher" type="checkbox" name="theme-dark">
+                                    <span class="checkbox"></span>
+                                    <span class="switcher__text">Dark theme</span>
+                                </label>
+                            </div>
+                            <div class="menu__switcher switcher">
+                                <label class="checkbox-wrapper">
+                                    <input class="typeSwitcher" type="checkbox" name="calc-type">
+                                    <span class="checkbox"></span>
+                                    <span class="switcher__text">Scientific</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="calc__panel">
+                        <div class="calc__digit-buttons">
+                            <button class="calc__button button button--wide">0</button>
+                            <button class="calc__button button">.</button>
+                            <button class="calc__button button">1</button>
+                            <button class="calc__button button">2</button>
+                            <button class="calc__button button">3</button>
+                            <button class="calc__button button">4</button>
+                            <button class="calc__button button">5</button>
+                            <button class="calc__button button">6</button>
+                            <button class="calc__button button">7</button>
+                            <button class="calc__button button">8</button>
+                            <button class="calc__button button">9</button>
+                            <div class="calc__format-buttons">
+                                <button class="calc__button button button--dark clearButton">AC</button>
+                                <button class="calc__button button button--dark">±</button>
+                                <button class="calc__button button button--dark">%</button>
+                            </div>
+                        </div>
+                        <div class="calc__operators-buttons calc__operators-buttons--scientific">
+                            <button class="calc__button button button--dark">n!</button>
+                            <button class="calc__button button button--dark">log</button>
+                            <button class="calc__button button button--dark">√</button>
+                            <button class="calc__button button button--dark">√
+                                <sub>y</sub>
+                            </button>
+                            <button class="calc__button button button--dark">x
+                                <sup>y</sup>
+                            </button>
+                        </div>
+                        <div class="calc__operators-buttons">
+                            <button class="calc__button button button--dark">÷</button>
+                            <button class="calc__button button button--dark">x</button>
+                            <button class="calc__button button button--dark">-</button>
+                            <button class="calc__button button button--dark">+</button>
+                            <button class="calc__button button button--dark">=</button>
+                        </div>
+                    </div>
+                    <div class="calc__journal journal">
+                        <div class="journal__content">
+                            <ol class="journal__list">
+                                <li class="journal__item journal__item--empty">There is no journal yet.</li>
+                            </ol>
+                            <div class="journal__clear tooltip-switch">
+                                <div class="journal__button"></div>
+                                <div class="journal__tooltip tooltip">
+                                    <div class="tooltip__content">
+                                        <p class="tooltip__text">Clear Journal</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <div class="container">
+                <div class="copyright">
+                    <p class="copyright__text">Aleksey Lipkin</p>
+                </div>
+                <div class="social">
+                    <ul class="social__list">
+                        <li class="social__item">
+                            <a target="blank" href="https://github.com/lipkin1aleksey" class="social__icon social__icon--git"></a>
+                        </li>
+                        <li class="social__item">
+                            <a target="blank" href="https://vk.com/reseadle" class="social__icon social__icon--vk"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="bundle.js"></script>
+</body>
+
+</html>
