@@ -46,6 +46,6 @@ a {
     justify-content: space-between;
     margin: 0 auto;
     &--main {
-        flex-flow: row wrap;
+        flex-flow: column;
     }
 }

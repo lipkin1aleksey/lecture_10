@@ -12,8 +12,9 @@ export function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-/**
+/**Calculates width of DOM element
  * @param {Object} element must be DOM element
+ * @returns {number} Returns the width of DOM element
  */
 export const getElementWidth = element => {
     let fullWidth = element.clientWidth;

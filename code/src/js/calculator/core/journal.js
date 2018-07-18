@@ -1,26 +1,25 @@
-function Journal(selector) {
-    let result = '';
+class Journal {
+    constructor(selector) {
+        this.journal = document.querySelector(`${selector} .journal`);
+        this.showButton = document.querySelector(`${selector} .log`);
+        this.clearButton = document.querySelector(`${selector} .journal__clear`);
 
-    const journal = document.querySelector(`${selector} .journal`);
-    const showButton = document.querySelector(`${selector} .log`);
-    const clearButton = document.querySelector(`${selector} .journal__clear`)
-    
-    showButton.addEventListener('click', toggleJournal);
-    clearButton.addEventListener('click', clearJournal);
-
-    function toggleJournal() {
+        this.showButton.addEventListener('click', this.toggleJournal);
+        this.clearButton.addEventListener('click', this.clearJournal.bind(this));
+    }
+    toggleJournal() {
         this.closest('.calc').classList.toggle('calc--journal-open');
     };
-    function clearJournal() {
-        let list = journal.querySelector('.journal__list');
+    clearJournal() {
+        let list = this.journal.querySelector('.journal__list');
         list.innerHTML = '';
         let item = document.createElement('li');
         item.className = 'journal__item journal__item--empty';
         item.textContent = 'There is no journal yet';
         list.appendChild(item);
     }
-    this.add = function (string) {
-        let list = journal.querySelector('.journal__list');
+    add(string) {
+        let list = this.journal.querySelector('.journal__list');
         if (list.firstElementChild.classList.contains('journal__item--empty')) {
             list.innerHTML = '';
         }

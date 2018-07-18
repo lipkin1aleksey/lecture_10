@@ -20,6 +20,8 @@
         font-size: 16px;
         transform-origin: right;
         white-space: nowrap;
+        max-width: 220px;
+        overflow: hidden;
     }
     &__result {
         transform-origin: right;

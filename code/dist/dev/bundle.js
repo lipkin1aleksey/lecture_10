@@ -94,83 +94,102 @@ __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./src/js/calculator/helpers/format.js
 /**
+ * divides a number into order
  * @param {(Number|String)} number
+ * @returns {number} Returns the number with spaces
  */
 const addSpace = number => {
     return String(deleteSpace(number)).replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ');
 };
 
 /**
+ * Removes spaces from a number
  * @param {(Number|String)} number
+ * @returns {number} Returns the number without spaces
  */
 const deleteSpace = number => {
     return String(number).replace(/\s/g, '');
 };
 // CONCATENATED MODULE: ./src/js/calculator/helpers/calculations.js
 /**
- * Descriptions
+ * Returns the sum of a and b
   @param {Number} a - first term
   @param {Number} b - second term
+  @returns {number} Sum of a and b
 */
 const getSum = (a, b) => a + b;
 
 /**
- * Descriptions
+ * Returns the difference of a and b
   @param {Number} a - number which is substracted
   @param {Number} b - subtrahend
+  @returns {number} difference of a and b
 */
 const getSubtraction = (a, b) => a - b;
 
 /**
- * Descriptions
+ * Returns the attitudes of a and b
   @param {Number} a - numerator
   @param {Number} b - denominator
+  @returns {number} The ratio of a to b
 */
 const getDivision = (a, b) => a / b;
 
 /**
- * Descriptions
+ * Returns the multiplication of a and b
   @param {Number} a - first multiplier
   @param {Number} b - second multiplier
+  @returns {number} The multiplication of a to b
 */
 const getMultiplication = (a, b) => a * b;
 
 /**
- * Descriptions
+ * Returns the factorial of n
   @param {Number} n - number
+  @returns {number} The factorial of n
 */
 const getFactorial = n => {
   return n != 1 ? n * getFactorial(n - 1) : 1;
 };
 
 /**
- * Descriptions
+ * Returns the logarithm of n
   @param {Number} n - number
+  @returns {number} The logarithm of n
 */
 const getLogarithm = n => {
   return n < 0 ? 0 : Math.log10(n);
 };
 
 /**
- * Descriptions
+ * Returns the square root of a number
   @param {Number} n - number, must be positive
+  @returns {number} Returns the square root
 */
 const getSqrt = n => Math.sqrt(n);
 
 /**
- * Descriptions
+ * returns the base to the exponent power
   @param {Number} n - base
   @param {Number} y - power
+  @returns {number} Returns the base to the exponent power
 */
 const getPow = (n, y) => Math.pow(n, y);
 
 /**
- * Descriptions
+ * Returns the square by base of a number
   @param {Number} n - statement
   @param {Number} y - base
+  @returns {number} Returns the square by base of a number
 */
-const getSqrtByBase = (n, y) => Math.round(getPow(n, 1 / y));
+const getSqrtByBase = (n, y) => getPow(n, 1 / y);
 
+/**
+ * Returns the percent of number
+  @param {Number} x - number
+  @param {Number} y - percent
+  @returns {number} Returns the percent
+*/
 const getPercent = (x, y) => x * parseFloat(y) / 100;
 
 
@@ -179,10 +198,11 @@ const getPercent = (x, y) => x * parseFloat(y) / 100;
 
 
 /**
- * Descriptions
+ * Provides calculates depends of operand and values
   @param {String} operand - operand for operation
   @param {(Number|String)} prevValue - first value for operation
   @param {(Number|String)} currentValue - second value for operation
+  @returns {String} result of calculations
 */
 const performOperation = (operand, prevValue, currentValue) => {
     let result = '';
@@ -230,8 +250,9 @@ function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-/**
+/**Calculates width of DOM element
  * @param {Object} element must be DOM element
+ * @returns {number} Returns the width of DOM element
  */
 const getElementWidth = element => {
     let fullWidth = element.clientWidth;
@@ -283,43 +304,49 @@ function Display(selector) {
   };
 }
 // CONCATENATED MODULE: ./src/js/calculator/core/menu.js
-const menu = {
-    toggleMenu: function () {
+class Menu {
+    static toggleMenu() {
+        let calc = this.closest('.calc');
         this.classList.toggle('burger--open');
-        this.closest('.calc').classList.toggle('calc--menu-open');
-    },
-    changeCalcTheme: function () {
+        calc.classList.toggle('calc--menu-open');
+    }
+    static changeCalcTheme() {
         this.closest('.calc').classList.toggle('theme-dark');
-    },
-    changeCalcType: function () {
+    }
+    static changeCalcType() {
         this.closest('.calc').classList.toggle('calc--scientific');
     }
-};
-/* harmony default export */ var core_menu = (menu);
+    static closeMenu() {
+        this.querySelector('.burger--open').classList.remove('burger--open');
+        this.classList.remove('calc--menu-open');
+    }
+}
+/* harmony default export */ var menu = (Menu);
 // CONCATENATED MODULE: ./src/js/calculator/core/history.js
 
-function History(selector) {
-    let result = [];
 
-    const historyBlock = document.querySelector(selector + ' .calc__history');
-
-    this.add = function (text, ...rest) {
-        result.push(text, ...rest);
-        printHistory();
-    };
-    this.remove = function () {
-        result.pop();
-    };
-    this.clear = function () {
-        result = [];
-        printHistory();
-    };
-    this.get = function () {
-        return result.join(' ');
-    };
-    function filterHistory() {
+class history_History {
+    constructor(selector) {
+        this.result = [];
+        this.historyBlock = document.querySelector(selector + ' .calc__history');
+    }
+    add(text, ...rest) {
+        this.result.push(text, ...rest);
+        this.printHistory();
+    }
+    remove() {
+        this.result.pop();
+    }
+    clear() {
+        this.result = [];
+        this.printHistory();
+    }
+    get() {
+        return this.result.join(' ');
+    }
+    filterHistory() {
         let utilArray = [];
-        result.forEach((value, index) => {
+        this.result.forEach((value, index) => {
             if (value.search(/log|fact|√/) !== -1) {
                 utilArray.push(index);
             } else if (value.startsWith('^')) {
@@ -328,41 +355,40 @@ function History(selector) {
         });
         //if after log/fact/etc number, delete this
         utilArray.forEach(value => {
-            isNumeric(result[value + 1]) ? result.splice(value + 1, 1) : null;
+            isNumeric(this.result[value + 1]) ? this.result.splice(value + 1, 1) : null;
         });
         utilArray = [];
     }
-    function printHistory() {
-        filterHistory();
-        historyBlock.innerHTML = result.join(' ');
+    printHistory() {
+        this.filterHistory();
+        this.historyBlock.innerHTML = this.result.join(' ');
     }
 }
 
-/* harmony default export */ var core_history = (History);
+/* harmony default export */ var core_history = (history_History);
 // CONCATENATED MODULE: ./src/js/calculator/core/journal.js
-function Journal(selector) {
-    let result = '';
+class Journal {
+    constructor(selector) {
+        this.journal = document.querySelector(`${selector} .journal`);
+        this.showButton = document.querySelector(`${selector} .log`);
+        this.clearButton = document.querySelector(`${selector} .journal__clear`);
 
-    const journal = document.querySelector(`${selector} .journal`);
-    const showButton = document.querySelector(`${selector} .log`);
-    const clearButton = document.querySelector(`${selector} .journal__clear`);
-
-    showButton.addEventListener('click', toggleJournal);
-    clearButton.addEventListener('click', clearJournal);
-
-    function toggleJournal() {
+        this.showButton.addEventListener('click', this.toggleJournal);
+        this.clearButton.addEventListener('click', this.clearJournal.bind(this));
+    }
+    toggleJournal() {
         this.closest('.calc').classList.toggle('calc--journal-open');
-    };
-    function clearJournal() {
-        let list = journal.querySelector('.journal__list');
+    }
+    clearJournal() {
+        let list = this.journal.querySelector('.journal__list');
         list.innerHTML = '';
         let item = document.createElement('li');
         item.className = 'journal__item journal__item--empty';
         item.textContent = 'There is no journal yet';
         list.appendChild(item);
     }
-    this.add = function (string) {
-        let list = journal.querySelector('.journal__list');
+    add(string) {
+        let list = this.journal.querySelector('.journal__list');
         if (list.firstElementChild.classList.contains('journal__item--empty')) {
             list.innerHTML = '';
         }
@@ -370,10 +396,10 @@ function Journal(selector) {
         item.className = 'journal__item';
         item.innerHTML = string;
         list.insertBefore(item, list.children[0]);
-    };
+    }
 }
 
-/* harmony default export */ var core_journal = (Journal);
+/* harmony default export */ var journal = (Journal);
 // CONCATENATED MODULE: ./src/js/calculator/calc.js
 
 
@@ -384,131 +410,149 @@ function Journal(selector) {
 
 
 
-function Calculator(selector) {
-    let waitingForOperand = true;
-    let buffer = '';
-    let scientificBuffer = '';
-    let result = '0';
-    let operand = '';
-    let scientificOperand = '';
-
-    let display = new Display(selector);
-    let history = new core_history(selector);
-    let journal = new core_journal(selector);
-
-    this.init = function () {
-        let buttons = document.querySelectorAll(`${selector} .button`);
-        const typeSwitcher = document.querySelector(`${selector} .typeSwitcher`);
-        const themeSwitcher = document.querySelector(`${selector} .themeSwitcher`);
-        const burger = document.querySelector(`${selector} .burger`);
-        const log = document.querySelector(`${selector} .log`);
-
+class calc_Calculator {
+    constructor(selector) {
+        this.selector = selector;
+        this.waitingForOperand = true;
+        this.buffer = '';
+        this.scientificBuffer = '';
+        this.result = '0';
+        this.operand = '';
+        this.scientificOperand = '';
+        this.display = new Display(selector);
+        this.history = new core_history(selector);
+        this.journal = new journal(selector);
+        this.menu = new menu();
+    }
+    init() {
+        let buttons = document.querySelectorAll(`${this.selector} .button`);
+        const typeSwitcher = document.querySelector(`${this.selector} .typeSwitcher`);
+        const themeSwitcher = document.querySelector(`${this.selector} .themeSwitcher`);
+        const burger = document.querySelector(`${this.selector} .burger`);
+        const log = document.querySelector(`${this.selector} .log`);
+        const self = this;
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', addToCalculate);
         }
+        typeSwitcher.addEventListener('change', menu.changeCalcType);
+        themeSwitcher.addEventListener('change', menu.changeCalcTheme);
+        burger.addEventListener('click', menu.toggleMenu);
+        log.addEventListener('click', this.journal.toggleJournal);
 
-        typeSwitcher.addEventListener('change', core_menu.changeCalcType);
-        themeSwitcher.addEventListener('change', core_menu.changeCalcTheme);
-        burger.addEventListener('click', core_menu.toggleMenu);
-        log.addEventListener('click', journal.toggleJournal);
-        display.init();
-    };
-    function addToCalculate() {
-        let text = this.textContent.replace(/\s+/, "").trim();
-        if (isNumeric(text)) {
-            addDigit(text);
-        } else {
-            switch (text) {
-                case '.':
-                    addDot();
-                    break;
-                case '±':
-                    changeSign();
-                    break;
-                case '%':
-                    calcPercentage();
-                    break;
-                case 'AC':
-                case 'C':
-                    clearResult();
-                    break;
-                case 'n!':
-                    calcFactorial();
-                    break;
-                case 'log':
-                    calcLogarithm();
-                    break;
-                case '√':
-                    calcSqrt();
-                    break;
-                case '√y':
-                case 'xy':
-                    addScientificOperand(text);
-                    break;
-                default:
-                    addOperand(text);
+        document.querySelector(this.selector).addEventListener('click', function (e) {
+            if (!this.classList.contains('calc--menu-open') || e.target.closest('.menu') || e.target.closest('.burger')) {
+                return false;
+            } else {
+                menu.closeMenu.bind(this)();
             }
+        });
+
+        this.display.init();
+        function addToCalculate() {
+            let text = this.textContent.replace(/\s+/, '').trim();
+            if (isNumeric(text)) {
+                self.addDigit(text);
+            } else {
+                switch (text) {
+                    case '.':
+                        self.addDot();
+                        break;
+                    case '±':
+                        self.changeSign();
+                        break;
+                    case '%':
+                        self.calcPercentage();
+                        break;
+                    case 'AC':
+                    case 'C':
+                        self.clearResult();
+                        break;
+                    case 'n!':
+                        self.calcFactorial();
+                        break;
+                    case 'log':
+                        self.calcLogarithm();
+                        break;
+                    case '√':
+                        self.calcSqrt();
+                        break;
+                    case '√y':
+                    case 'xy':
+                        self.addScientificOperand(text);
+                        break;
+                    default:
+                        self.addOperand(text);
+                }
+            }
+            self.changeClearButton();
         }
-        changeClearButton();
     }
     /** @function addDigit
      * @param {string} digit - The number is displayed on the screen
      */
-    function addDigit(digit) {
-        if (waitingForOperand && operand !== '=') {
-            if (result === '0') {
-                result = digit;
+    addDigit(digit) {
+        if (this.waitingForOperand && this.operand !== '=') {
+            if (this.result === '0') {
+                this.result = digit;
             } else {
-                result += digit;
+                this.result += digit;
             }
         } else {
-            result = digit;
-            waitingForOperand = true;
+            this.result = digit;
+            this.waitingForOperand = true;
         }
-        printResult();
+        this.printResult();
     }
-    function printResult() {
-        const resultString = document.querySelector(`${selector} .calc__result`);
-        resultString.innerHTML = addSpace(result);
-        display.action(resultString);
+
+    /**
+    * Print current result to display
+    */
+    printResult() {
+        const resultString = document.querySelector(`${this.selector} .calc__result`);
+        resultString.innerHTML = addSpace(this.result);
+        this.display.action(resultString);
     }
-    function addOperand(nextOperand) {
-        if (scientificBuffer !== '') {
-            if (scientificOperand === 'xy') {
-                history.add(scientificBuffer, '^', result);
-            } else if (scientificOperand === '√y') {
-                history.add(scientificBuffer, '^', ` 1/${result}`);
+
+    /** @function addOperand
+    *   @param {string} nextOperand - The next operand to queue
+    */
+    addOperand(nextOperand) {
+        if (this.scientificBuffer !== '') {
+            if (this.scientificOperand === 'xy') {
+                this.history.add(this.scientificBuffer, '^', this.result);
+            } else if (this.scientificOperand === '√y') {
+                this.history.add(this.scientificBuffer, '^', ` 1/${this.result}`);
             }
-            result = performOperation(scientificOperand, scientificBuffer, result);
-            scientificBuffer = '';
-            printResult();
+            this.result = performOperation(this.scientificOperand, this.scientificBuffer, this.result);
+            this.scientificBuffer = '';
+            this.printResult();
         }
-        if (waitingForOperand) {
-            if (buffer !== '') {
-                history.add(result, nextOperand);
-                console.log(operand, buffer, result);
-                result = performOperation(operand, buffer, result);
-                buffer = result;
-                printResult();
+        if (this.waitingForOperand) {
+            if (this.buffer !== '') {
+                this.history.add(this.result, nextOperand);
+                this.result = performOperation(this.operand, this.buffer, this.result);
+                this.buffer = this.result;
+                this.printResult();
             } else {
-                buffer = result;
-                history.add(result, nextOperand);
+                this.buffer = this.result;
+                this.history.add(this.result, nextOperand);
             }
-            operand = nextOperand;
-            waitingForOperand = false;
+            this.operand = nextOperand;
+            this.waitingForOperand = false;
         } else {
-            operand = nextOperand;
-            history.remove();
-            history.add(operand);
+            this.operand = nextOperand;
+            this.history.remove();
+            this.history.add(this.operand);
         }
         if (nextOperand === '=') {
-            history.add(result);
-            journal.add(history.get());
-            history.clear();
-            waitingForOperand = true;
-            buffer = '';
+            this.history.add(this.result);
+            this.journal.add(this.history.get());
+            this.history.clear();
+            this.waitingForOperand = true;
+            this.buffer = '';
         }
     }
+
     /**
      * Push item in history depends of sign
      * @example
@@ -518,69 +562,102 @@ function Calculator(selector) {
      * // push result, "+"
      * updateHistory("+")
      */
-    function addScientificOperand(nextOperand) {
-        scientificBuffer = result;
-        scientificOperand = nextOperand;
-        waitingForOperand = false;
+    addScientificOperand(nextOperand) {
+        this.scientificBuffer = this.result;
+        this.scientificOperand = nextOperand;
+        this.waitingForOperand = false;
     }
-    function clearResult() {
-        if (result === '0') {
-            buffer = '';
-            operand = '';
-            scientificOperand = '';
-            scientificBuffer = '';
-            waitingForOperand = true;
-            history.clear();
+
+    /** 
+    *   Clear all variables
+    */
+    clearResult() {
+        if (this.result === '0') {
+            this.buffer = '';
+            this.operand = '';
+            this.scientificOperand = '';
+            this.scientificBuffer = '';
+            this.waitingForOperand = true;
+            this.history.clear();
         } else {
-            result = '0';
+            this.result = '0';
         }
-        printResult();
+        this.printResult();
     }
-    function calcPercentage() {
-        if (buffer === '' || buffer === '0') {
-            result = 0;
-        } else if (!waitingForOperand) {
-            operand = '%';
-            history.remove();
-            history.add('%');
+
+    /**
+    * Processes the pressing of the percent button
+    */
+    calcPercentage() {
+        if (this.buffer === '' || this.buffer === '0') {
+            this.result = 0;
+        } else if (!this.waitingForOperand) {
+            this.operand = '%';
+            this.history.remove();
+            this.history.add('%');
         } else {
-            result = buffer * parseFloat(result) / 100;
+            this.result = this.buffer * parseFloat(this.result) / 100;
         }
-        result = String(result);
-        printResult();
+        this.result = String(this.result);
+        this.printResult();
     }
-    function calcFactorial() {
-        history.add(`fact(${result})`);
-        result = String(getFactorial(result));
-        printResult();
+
+    /**
+    * Processes the pressing of the factorial button
+    */
+    calcFactorial() {
+        this.history.add(`fact(${this.result})`);
+        this.result = String(getFactorial(this.result));
+        this.printResult();
     }
-    function calcLogarithm() {
-        history.add(`log(${result})`);
-        result = String(getLogarithm(result));
-        printResult();
+
+    /**
+    * Processes the pressing of the logarithm button
+    */
+    calcLogarithm() {
+        this.history.add(`log(${this.result})`);
+        this.result = String(getLogarithm(this.result));
+        this.printResult();
     }
-    function calcSqrt() {
-        history.add(`√${result}`);
-        result = String(getSqrt(result));
-        printResult();
+
+    /**
+    * Processes the pressing of the sqrt button
+    */
+    calcSqrt() {
+        this.history.add(`√${this.result}`);
+        this.result = String(getSqrt(this.result));
+        this.printResult();
     }
-    function changeSign() {
-        result = parseFloat(result) * -1;
-        result = String(result);
-        printResult();
+
+    /**
+    * Processes the pressing of the sign change button
+    */
+    changeSign() {
+        this.result = parseFloat(this.result) * -1;
+        this.result = String(this.result);
+        this.printResult();
     }
-    function addDot() {
-        if (result.indexOf('.') === -1) {
-            result += '.';
-            waitingForOperand = true;
+
+    /**
+    * Processes the pressing of the dot button
+    */
+    addDot() {
+        if (this.result.indexOf('.') === -1) {
+            this.result += '.';
+            this.waitingForOperand = true;
         }
-        printResult();
+        this.printResult();
     }
-    function changeClearButton() {
-        let button = document.querySelector(`${selector} .clearButton`);
-        button.innerHTML = result === '0' ? 'AC' : 'C';
+
+    /**
+    * Track the status of the reset button
+    */
+    changeClearButton() {
+        let button = document.querySelector(`${this.selector} .clearButton`);
+        button.innerHTML = this.result === '0' ? 'AC' : 'C';
     }
 }
+/* harmony default export */ var calc = (calc_Calculator);
 // EXTERNAL MODULE: ./src/sass/style.scss
 var style = __webpack_require__(16);
 
@@ -589,11 +666,11 @@ var style = __webpack_require__(16);
 //styles
 
 
-let calcOne = new Calculator("#calc-one");
-// let calcTwo = new Calculator("#calc-two");
+let calcOne = new calc("#calc-one");
+let calcTwo = new calc("#calc-two");
 
 calcOne.init();
-// calcTwo.init();
+calcTwo.init();
 
 /***/ }),
 

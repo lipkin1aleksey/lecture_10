@@ -1,6 +1,23 @@
-# Calculator v.2.0
+# Calculator v.2.1
 
-This is a simple calculator application based on iOS calc-app.
+This is a simple calculator application.
+
+## Changelog
+```
+v2.1 
+    1) History, menu, journal and calc refactored to ES6 Class
+    2) Now if journal is empty - there number '1' is not displayed
+    3) Fix Math.pow and sqrt by base buttons
+    4) Now you can close menu by click in free space in the calculator
+    5) Change js and css file structure
+    6) Add tooltips for journal buttons
+    7) Add JSDoc for functions
+    8) Minor change in webpack config
+    And some other fixes!
+```
+v2.0 Add journal, major fix file structure and bugs;
+v1.2 Major changes in file structure, now you can simple init any numbers of calculators by new Calculator.init()  
+v1.1 Add scientific type, display history and minor fixes in design.
 
 ## About sctructure
 
@@ -15,7 +32,7 @@ There is are several design patterns used, such as:
 3) Singleton: code\src\js\calc\menu.js; 
 ```
 
-##About code style
+## About code style
 
 There are some of ES6 features, which I used for this project:
 
@@ -26,16 +43,9 @@ There are some of ES6 features, which I used for this project:
 
 And many other features!
 
-
 ## Warning
 
 Please don't merge gh-pages brunch with any other, it was created only for demonstration.
-
-## Changelog
-
-v2.0 Add journal, major fix file structure and bugs;
-v1.2 Major changes in file structure, now you can simple init any numbers of calculators by new Calculator.init()  
-v1.1 Add scientific type, display history and minor fixes in design.
 
 ## Getting Started
 

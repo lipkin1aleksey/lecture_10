@@ -10,10 +10,11 @@ import {
 } from './calculations';
 
 /**
- * Descriptions
+ * Provides calculates depends of operand and values
   @param {String} operand - operand for operation
   @param {(Number|String)} prevValue - first value for operation
   @param {(Number|String)} currentValue - second value for operation
+  @returns {String} result of calculations
 */
 export const performOperation = (operand, prevValue, currentValue) => {
     let result = '';

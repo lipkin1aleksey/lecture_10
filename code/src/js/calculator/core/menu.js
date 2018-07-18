@@ -1,13 +1,18 @@
-const menu = {
-    toggleMenu: function() {
+class Menu {
+    static toggleMenu() {
+        let calc = this.closest('.calc');
         this.classList.toggle('burger--open');
-        this.closest('.calc').classList.toggle('calc--menu-open');
-    },
-    changeCalcTheme: function() {
+        calc.classList.toggle('calc--menu-open');
+    }
+    static changeCalcTheme() {
         this.closest('.calc').classList.toggle('theme-dark');
-    },
-    changeCalcType: function() {
+    }
+    static changeCalcType() {
         this.closest('.calc').classList.toggle('calc--scientific');
     }
-};
-export default menu;
+    static closeMenu() {
+        this.querySelector('.burger--open').classList.remove('burger--open');
+        this.classList.remove('calc--menu-open');
+    }
+}
+export default Menu;

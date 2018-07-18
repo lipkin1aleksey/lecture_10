@@ -3,145 +3,177 @@ import { getFactorial, getLogarithm, getSqrt } from './helpers/calculations';
 import { addSpace } from './helpers/format';
 import { isNumeric } from './helpers/util';
 import { Display } from './core/display';
-import menu from './core/menu';
-import History from "./core/history";
+import Menu from './core/menu';
+import History from './core/history';
 import Journal from './core/journal';
 
-export function Calculator(selector) {
-    let waitingForOperand = true;
-    let buffer = '';
-    let scientificBuffer = '';
-    let result = '0';
-    let operand = '';
-    let scientificOperand = '';
-
-    let display = new Display(selector);
-    let history = new History(selector);
-    let journal = new Journal(selector);
-
-    this.init = function() {
-        let buttons = document.querySelectorAll(`${selector} .button`);
+class Calculator {
+    constructor(selector) {
+        this.selector = selector;
+        this.waitingForOperand = true;
+        this.buffer = '';
+        this.scientificBuffer = '';
+        this.result = '0';
+        this.operand = '';
+        this.scientificOperand = '';
+        this.display = new Display(selector);
+        this.history = new History(selector);
+        this.journal = new Journal(selector);
+        this.menu = new Menu();
+    }
+    init() {
+        let buttons = document.querySelectorAll(`${this.selector} .button`);
         const typeSwitcher = document.querySelector(
-            `${selector} .typeSwitcher`
+            `${this.selector} .typeSwitcher`
         );
         const themeSwitcher = document.querySelector(
-            `${selector} .themeSwitcher`
+            `${this.selector} .themeSwitcher`
         );
-        const burger = document.querySelector(`${selector} .burger`);
-        const log = document.querySelector(`${selector} .log`);
-
+        const burger = document.querySelector(`${this.selector} .burger`);
+        const log = document.querySelector(`${this.selector} .log`);
+        const self = this;
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', addToCalculate);
         }
+        typeSwitcher.addEventListener('change', Menu.changeCalcType);
+        themeSwitcher.addEventListener('change', Menu.changeCalcTheme);
+        burger.addEventListener('click', Menu.toggleMenu);
+        log.addEventListener('click', this.journal.toggleJournal);
 
-        typeSwitcher.addEventListener('change', menu.changeCalcType);
-        themeSwitcher.addEventListener('change', menu.changeCalcTheme);
-        burger.addEventListener('click', menu.toggleMenu);
-        log.addEventListener('click', journal.toggleJournal);
-        display.init();
-    };
-    function addToCalculate() {
-        let text = this.textContent.replace(/\s+/, "").trim();
-        if (isNumeric(text)) {
-            addDigit(text);
-        } else {
-            switch (text) {
-                case '.':
-                    addDot();
-                    break;
-                case '±':
-                    changeSign();
-                    break;
-                case '%':
-                    calcPercentage();
-                    break;
-                case 'AC':
-                case 'C':
-                    clearResult();
-                    break;
-                case 'n!':
-                    calcFactorial();
-                    break;
-                case 'log':
-                    calcLogarithm();
-                    break;
-                case '√':
-                    calcSqrt();
-                    break;
-                case '√y':
-                case 'xy':
-                    addScientificOperand(text);
-                    break;
-                default:
-                    addOperand(text);
+        document
+            .querySelector(this.selector)
+            .addEventListener('click', function(e) {
+                if (
+                    !this.classList.contains('calc--menu-open') ||
+                    e.target.closest('.menu') ||
+                    e.target.closest('.burger')
+                ) {
+                    return false;
+                } else {
+                    Menu.closeMenu.bind(this)();
+                }
+            });
+
+        this.display.init();
+        function addToCalculate() {
+            let text = this.textContent.replace(/\s+/, '').trim();
+            if (isNumeric(text)) {
+                self.addDigit(text);
+            } else {
+                switch (text) {
+                    case '.':
+                        self.addDot();
+                        break;
+                    case '±':
+                        self.changeSign();
+                        break;
+                    case '%':
+                        self.calcPercentage();
+                        break;
+                    case 'AC':
+                    case 'C':
+                        self.clearResult();
+                        break;
+                    case 'n!':
+                        self.calcFactorial();
+                        break;
+                    case 'log':
+                        self.calcLogarithm();
+                        break;
+                    case '√':
+                        self.calcSqrt();
+                        break;
+                    case '√y':
+                    case 'xy':
+                        self.addScientificOperand(text);
+                        break;
+                    default:
+                        self.addOperand(text);
+                }
             }
+            self.changeClearButton();
         }
-        changeClearButton();
     }
     /** @function addDigit
      * @param {string} digit - The number is displayed on the screen
      */
-    function addDigit(digit) {
-        if (waitingForOperand && operand !== '=') {
-            if (result === '0') {
-                result = digit;
+    addDigit(digit) {
+        if (this.waitingForOperand && this.operand !== '=') {
+            if (this.result === '0') {
+                this.result = digit;
             } else {
-                result += digit;
+                this.result += digit;
             }
         } else {
-            result = digit;
-            waitingForOperand = true;
+            this.result = digit;
+            this.waitingForOperand = true;
         }
-        printResult();
+        this.printResult();
     }
-    function printResult() {
+
+    /**
+    * Print current result to display
+    */
+    printResult() {
         const resultString = document.querySelector(
-            `${selector} .calc__result`
+            `${this.selector} .calc__result`
         );
-        resultString.innerHTML = addSpace(result);
-        display.action(resultString);
+        resultString.innerHTML = addSpace(this.result);
+        this.display.action(resultString);
     }
-    function addOperand(nextOperand) {
-        if (scientificBuffer !== '') {
-            if (scientificOperand === 'xy') {
-                history.add(scientificBuffer, '^', result);
-            } else if (scientificOperand === '√y') {
-                history.add(scientificBuffer, '^', ` 1/${result}`);
+
+    /** @function addOperand
+    *   @param {string} nextOperand - The next operand to queue
+    */
+    addOperand(nextOperand) {
+        if (this.scientificBuffer !== '') {
+            if (this.scientificOperand === 'xy') {
+                this.history.add(this.scientificBuffer, '^', this.result);
+            } else if (this.scientificOperand === '√y') {
+                this.history.add(
+                    this.scientificBuffer,
+                    '^',
+                    ` 1/${this.result}`
+                );
             }
-            result = performOperation(
-                scientificOperand,
-                scientificBuffer,
-                result
+            this.result = performOperation(
+                this.scientificOperand,
+                this.scientificBuffer,
+                this.result
             );
-            scientificBuffer = '';
-            printResult();
+            this.scientificBuffer = '';
+            this.printResult();
         }
-        if (waitingForOperand) {
-            if (buffer !== '') {
-                history.add(result, nextOperand);
-                console.log(operand, buffer, result);
-                result = performOperation(operand, buffer, result);
-                buffer = result;
-                printResult();
+        if (this.waitingForOperand) {
+            if (this.buffer !== '') {
+                this.history.add(this.result, nextOperand);
+                this.result = performOperation(
+                    this.operand,
+                    this.buffer,
+                    this.result
+                );
+                this.buffer = this.result;
+                this.printResult();
             } else {
-                buffer = result;
-                history.add(result, nextOperand);
+                this.buffer = this.result;
+                this.history.add(this.result, nextOperand);
             }
-            operand = nextOperand;
-            waitingForOperand = false;
+            this.operand = nextOperand;
+            this.waitingForOperand = false;
         } else {
-            operand = nextOperand;
-            history.remove();
-            history.add(operand);
+            this.operand = nextOperand;
+            this.history.remove();
+            this.history.add(this.operand);
         }
         if (nextOperand === '=') {
-            history.add(result);
-            journal.add(history.get());
-            history.clear();
-            waitingForOperand = true;
-            buffer = '';
+            this.history.add(this.result);
+            this.journal.add(this.history.get());
+            this.history.clear();
+            this.waitingForOperand = true;
+            this.buffer = '';
         }
     }
+
     /**
      * Push item in history depends of sign
      * @example
@@ -151,66 +183,99 @@ export function Calculator(selector) {
      * // push result, "+"
      * updateHistory("+")
      */
-    function addScientificOperand(nextOperand) {
-        scientificBuffer = result;
-        scientificOperand = nextOperand;
-        waitingForOperand = false;
+    addScientificOperand(nextOperand) {
+        this.scientificBuffer = this.result;
+        this.scientificOperand = nextOperand;
+        this.waitingForOperand = false;
     }
-    function clearResult() {
-        if (result === '0') {
-            buffer = '';
-            operand = '';
-            scientificOperand = '';
-            scientificBuffer = '';
-            waitingForOperand = true;
-            history.clear();
+
+    /** 
+    *   Clear all variables
+    */
+    clearResult() {
+        if (this.result === '0') {
+            this.buffer = '';
+            this.operand = '';
+            this.scientificOperand = '';
+            this.scientificBuffer = '';
+            this.waitingForOperand = true;
+            this.history.clear();
         } else {
-            result = '0';
+            this.result = '0';
         }
-        printResult();
+        this.printResult();
     }
-    function calcPercentage() {
-        if (buffer === '' || buffer === '0') {
-            result = 0;
-        } else if (!waitingForOperand) {
-            operand = '%';
-            history.remove();
-            history.add('%');
+
+    /**
+    * Processes the pressing of the percent button
+    */
+    calcPercentage() {
+        if (this.buffer === '' || this.buffer === '0') {
+            this.result = 0;
+        } else if (!this.waitingForOperand) {
+            this.operand = '%';
+            this.history.remove();
+            this.history.add('%');
         } else {
-            result = (buffer * parseFloat(result)) / 100;
+            this.result = (this.buffer * parseFloat(this.result)) / 100;
         }
-        result = String(result);
-        printResult();
+        this.result = String(this.result);
+        this.printResult();
     }
-    function calcFactorial() {
-        history.add(`fact(${result})`);
-        result = String(getFactorial(result));
-        printResult();
+
+    /**
+    * Processes the pressing of the factorial button
+    */
+    calcFactorial() {
+        this.history.add(`fact(${this.result})`);
+        this.result = String(getFactorial(this.result));
+        this.printResult();
     }
-    function calcLogarithm() {
-        history.add(`log(${result})`);
-        result = String(getLogarithm(result));
-        printResult();
+
+    /**
+    * Processes the pressing of the logarithm button
+    */
+    calcLogarithm() {
+        this.history.add(`log(${this.result})`);
+        this.result = String(getLogarithm(this.result));
+        this.printResult();
     }
-    function calcSqrt() {
-        history.add(`√${result}`);
-        result = String(getSqrt(result));
-        printResult();
+
+    /**
+    * Processes the pressing of the sqrt button
+    */
+    calcSqrt() {
+        this.history.add(`√${this.result}`);
+        this.result = String(getSqrt(this.result));
+        this.printResult();
     }
-    function changeSign() {
-        result = parseFloat(result) * -1;
-        result = String(result);
-        printResult();
+
+    /**
+    * Processes the pressing of the sign change button
+    */
+    changeSign() {
+        this.result = parseFloat(this.result) * -1;
+        this.result = String(this.result);
+        this.printResult();
     }
-    function addDot() {
-        if (result.indexOf('.') === -1) {
-            result += '.';
-            waitingForOperand = true;
+
+    /**
+    * Processes the pressing of the dot button
+    */
+    addDot() {
+        if (this.result.indexOf('.') === -1) {
+            this.result += '.';
+            this.waitingForOperand = true;
         }
-        printResult();
+        this.printResult();
     }
-    function changeClearButton() {
-        let button = document.querySelector(`${selector} .clearButton`);
-        button.innerHTML = result === '0' ? 'AC' : 'C';
+
+    /**
+    * Track the status of the reset button
+    */
+    changeClearButton() {
+        let button = document.querySelector(`${this.selector} .clearButton`);
+        button.innerHTML = this.result === '0' ? 'AC' : 'C';
     }
 }
+export default Calculator;

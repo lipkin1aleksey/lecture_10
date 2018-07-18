@@ -1,26 +1,27 @@
 import { isNumeric } from "../helpers/util";
-function History(selector) {
-    let result = [];
 
-    const historyBlock = document.querySelector(selector + ' .calc__history');
-
-    this.add = function(text, ...rest) {
-        result.push(text, ...rest);
-        printHistory();
-    };
-    this.remove = function() {
-        result.pop();
-    };
-    this.clear = function() {
-        result = [];
-        printHistory();
-    };
-    this.get = function() {
-        return result.join(' ');
+class History {
+    constructor(selector) {
+        this.result = [];
+        this.historyBlock = document.querySelector(selector + ' .calc__history');
+    }    
+    add(text, ...rest) {
+        this.result.push(text, ...rest);
+        this.printHistory();
     }
-    function filterHistory() {
+    remove() {
+        this.result.pop();
+    };
+    clear() {
+        this.result = [];
+        this.printHistory();
+    };
+    get() {
+        return this.result.join(' ');
+    }
+    filterHistory() {
         let utilArray = [];
-        result.forEach((value,index) => {
+        this.result.forEach((value,index) => {
             if ( value.search(/log|fact|√/) !== -1 ) {
                 utilArray.push(index);
             } else if ( value.startsWith('^') ) {
@@ -29,13 +30,13 @@ function History(selector) {
         })
         //if after log/fact/etc number, delete this
         utilArray.forEach((value) => {
-            isNumeric(result[value + 1]) ? result.splice(value + 1, 1) : null;
+            isNumeric(this.result[value + 1]) ? this.result.splice(value + 1, 1) : null;
         })
         utilArray = [];
     }
-    function printHistory() {
-        filterHistory();
-        historyBlock.innerHTML = result.join(' ');
+    printHistory() {
+        this.filterHistory();
+        this.historyBlock.innerHTML = this.result.join(' ');
     }
 }
 
