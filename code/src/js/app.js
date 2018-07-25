@@ -3,7 +3,7 @@ import Calculator from "./calculator/calc";
 import "../sass/style.scss";
 
 let calcOne = new Calculator("#calc-one");
-let calcTwo = new Calculator("#calc-two");
+// let calcTwo = new Calculator("#calc-two");
 
 calcOne.init();
-calcTwo.init();
+// calcTwo.init();

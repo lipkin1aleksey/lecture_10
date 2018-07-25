@@ -263,45 +263,45 @@ const getElementWidth = element => {
 
 
 function Display(selector) {
-  let displayWidth = null;
-  let resultWidth = null;
-  let historyWidth = null;
-  let scale = 1;
-  const display = document.querySelector(selector + " .calc__display");
-  const result = document.querySelector(selector + " .calc__result");
-  const history = document.querySelector(selector + " .calc__history");
+    let displayWidth = null;
+    let resultWidth = null;
+    let historyWidth = null;
+    let scale = 1;
+    const display = document.querySelector(selector + ' .calc__display');
+    const result = document.querySelector(selector + ' .calc__result');
+    const history = document.querySelector(selector + ' .calc__history');
 
-  this.init = function () {
-    displayWidth = getElementWidth(display);
-    resultWidth = getElementWidth(result);
-    historyWidth = getElementWidth(result);
-  };
+    this.init = function () {
+        displayWidth = getElementWidth(display);
+        resultWidth = getElementWidth(result);
+        historyWidth = getElementWidth(result);
+    };
 
-  /** @function changeElementScale
-   * @param {Object} element - The element that scale will change
-   */
-  this.action = function (element) {
-    let actualResultWidth = getElementWidth(element),
-        type = null,
-        width = null;
-    if (element.classList.contains("calc__result")) {
-      type = result;
-      width = resultWidth;
-    } else {
-      type = history;
-      width = historyWidth;
-    }
-    if (actualResultWidth !== width) {
-      width = actualResultWidth;
-    }
-    let actualScale = displayWidth / width;
-    if (actualScale < 1) {
-      scale = actualScale;
-    } else {
-      scale = 1;
-    }
-    type.style.transform = `scale(${scale}, ${scale})`;
-  };
+    /** @function changeElementScale
+     * @param {Object} element - The element that scale will change
+     */
+    this.action = function (element) {
+        let actualResultWidth = getElementWidth(element),
+            type = null,
+            width = null;
+        if (element.classList.contains('calc__result')) {
+            type = result;
+            width = resultWidth;
+        } else {
+            type = history;
+            width = historyWidth;
+        }
+        if (actualResultWidth !== width) {
+            width = actualResultWidth;
+        }
+        let actualScale = displayWidth / width;
+        if (actualScale < 1) {
+            scale = actualScale;
+        } else {
+            scale = 1;
+        }
+        type.style.transform = `scale(${scale}, ${scale})`;
+    };
 }
 // CONCATENATED MODULE: ./src/js/calculator/core/menu.js
 class Menu {
@@ -400,7 +400,11 @@ class Journal {
 }
 
 /* harmony default export */ var journal = (Journal);
+// EXTERNAL MODULE: ./src/js/calculator/core/connection.js
+var connection = __webpack_require__(1);
+
 // CONCATENATED MODULE: ./src/js/calculator/calc.js
+
 
 
 
@@ -423,6 +427,7 @@ class calc_Calculator {
         this.history = new core_history(selector);
         this.journal = new journal(selector);
         this.menu = new menu();
+        this.socket = new WebSocket("ws://localhost:8081");
     }
     init() {
         let buttons = document.querySelectorAll(`${this.selector} .button`);
@@ -431,13 +436,20 @@ class calc_Calculator {
         const burger = document.querySelector(`${this.selector} .burger`);
         const log = document.querySelector(`${this.selector} .log`);
         const self = this;
+
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', addToCalculate);
         }
+
         typeSwitcher.addEventListener('change', menu.changeCalcType);
         themeSwitcher.addEventListener('change', menu.changeCalcTheme);
         burger.addEventListener('click', menu.toggleMenu);
         log.addEventListener('click', this.journal.toggleJournal);
+
+        this.socket.onmessage = function (event) {
+            var incomingMessage = event.data;
+            self.showMessage(incomingMessage);
+        };
 
         document.querySelector(this.selector).addEventListener('click', function (e) {
             if (!this.classList.contains('calc--menu-open') || e.target.closest('.menu') || e.target.closest('.burger')) {
@@ -479,6 +491,9 @@ class calc_Calculator {
                     case '√y':
                     case 'xy':
                         self.addScientificOperand(text);
+                        break;
+                    case 'S':
+                        self.sendRequest();
                         break;
                     default:
                         self.addOperand(text);
@@ -656,10 +671,19 @@ class calc_Calculator {
         let button = document.querySelector(`${this.selector} .clearButton`);
         button.innerHTML = this.result === '0' ? 'AC' : 'C';
     }
+    sendRequest() {
+        var outgoingMessage = 'get data';
+        this.socket.send(outgoingMessage);
+        return false;
+    }
+    showMessage(message) {
+        let result = document.querySelector(`${this.selector} .calc__result`);
+        result.innerHTML = message;
+    }
 }
 /* harmony default export */ var calc = (calc_Calculator);
 // EXTERNAL MODULE: ./src/sass/style.scss
-var style = __webpack_require__(16);
+var style = __webpack_require__(18);
 
 // CONCATENATED MODULE: ./src/js/app.js
 
@@ -667,14 +691,21 @@ var style = __webpack_require__(16);
 
 
 let calcOne = new calc("#calc-one");
-let calcTwo = new calc("#calc-two");
+// let calcTwo = new Calculator("#calc-two");
 
 calcOne.init();
-calcTwo.init();
+// calcTwo.init();
 
 /***/ }),
 
-/***/ 16:
+/***/ 1:
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ 18:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

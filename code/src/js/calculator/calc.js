@@ -6,6 +6,7 @@ import { Display } from './core/display';
 import Menu from './core/menu';
 import History from './core/history';
 import Journal from './core/journal';
+import Connection from './core/connection';
 
 class Calculator {
     constructor(selector) {
@@ -20,6 +21,7 @@ class Calculator {
         this.history = new History(selector);
         this.journal = new Journal(selector);
         this.menu = new Menu();
+        this.socket = new WebSocket("ws://localhost:8081");
     }
     init() {
         let buttons = document.querySelectorAll(`${this.selector} .button`);
@@ -32,13 +34,20 @@ class Calculator {
         const burger = document.querySelector(`${this.selector} .burger`);
         const log = document.querySelector(`${this.selector} .log`);
         const self = this;
+
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', addToCalculate);
         }
+
         typeSwitcher.addEventListener('change', Menu.changeCalcType);
         themeSwitcher.addEventListener('change', Menu.changeCalcTheme);
         burger.addEventListener('click', Menu.toggleMenu);
         log.addEventListener('click', this.journal.toggleJournal);
+
+        this.socket.onmessage = function(event) {
+            var incomingMessage = event.data;
+            self.showMessage(incomingMessage);
+        };
 
         document
             .querySelector(this.selector)
@@ -87,6 +96,9 @@ class Calculator {
                     case 'xy':
                         self.addScientificOperand(text);
                         break;
+                    case 'S':
+                        self.sendRequest();
+                    break;
                     default:
                         self.addOperand(text);
                 }
@@ -276,6 +288,15 @@ class Calculator {
     changeClearButton() {
         let button = document.querySelector(`${this.selector} .clearButton`);
         button.innerHTML = this.result === '0' ? 'AC' : 'C';
+    }
+    sendRequest() {
+        var outgoingMessage = 'get data';
+        this.socket.send(outgoingMessage);
+        return false;
+    }
+    showMessage(message) {
+        let result = document.querySelector(`${this.selector} .calc__result`);
+        result.innerHTML = message;
     }
 }
 export default Calculator;
