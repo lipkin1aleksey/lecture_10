@@ -427,7 +427,7 @@ class calc_Calculator {
         this.history = new core_history(selector);
         this.journal = new journal(selector);
         this.menu = new menu();
-        this.socket = new WebSocket("ws://localhost:8081");
+        this.socket = new WebSocket('ws://localhost:8081');
     }
     init() {
         let buttons = document.querySelectorAll(`${this.selector} .button`);
@@ -445,11 +445,6 @@ class calc_Calculator {
         themeSwitcher.addEventListener('change', menu.changeCalcTheme);
         burger.addEventListener('click', menu.toggleMenu);
         log.addEventListener('click', this.journal.toggleJournal);
-
-        this.socket.onmessage = function (event) {
-            var incomingMessage = event.data;
-            self.showMessage(incomingMessage);
-        };
 
         document.querySelector(this.selector).addEventListener('click', function (e) {
             if (!this.classList.contains('calc--menu-open') || e.target.closest('.menu') || e.target.closest('.burger')) {
@@ -493,7 +488,7 @@ class calc_Calculator {
                         self.addScientificOperand(text);
                         break;
                     case 'S':
-                        self.sendRequest();
+                        self.sendRequest().then(incomingMessage => self.showMessage(incomingMessage)).catch(error => self.showMessage('error'));
                         break;
                     default:
                         self.addOperand(text);
@@ -520,8 +515,8 @@ class calc_Calculator {
     }
 
     /**
-    * Print current result to display
-    */
+     * Print current result to display
+     */
     printResult() {
         const resultString = document.querySelector(`${this.selector} .calc__result`);
         resultString.innerHTML = addSpace(this.result);
@@ -529,8 +524,8 @@ class calc_Calculator {
     }
 
     /** @function addOperand
-    *   @param {string} nextOperand - The next operand to queue
-    */
+     *   @param {string} nextOperand - The next operand to queue
+     */
     addOperand(nextOperand) {
         if (this.scientificBuffer !== '') {
             if (this.scientificOperand === 'xy') {
@@ -583,9 +578,9 @@ class calc_Calculator {
         this.waitingForOperand = false;
     }
 
-    /** 
-    *   Clear all variables
-    */
+    /**
+     *   Clear all variables
+     */
     clearResult() {
         if (this.result === '0') {
             this.buffer = '';
@@ -601,8 +596,8 @@ class calc_Calculator {
     }
 
     /**
-    * Processes the pressing of the percent button
-    */
+     * Processes the pressing of the percent button
+     */
     calcPercentage() {
         if (this.buffer === '' || this.buffer === '0') {
             this.result = 0;
@@ -618,8 +613,8 @@ class calc_Calculator {
     }
 
     /**
-    * Processes the pressing of the factorial button
-    */
+     * Processes the pressing of the factorial button
+     */
     calcFactorial() {
         this.history.add(`fact(${this.result})`);
         this.result = String(getFactorial(this.result));
@@ -627,8 +622,8 @@ class calc_Calculator {
     }
 
     /**
-    * Processes the pressing of the logarithm button
-    */
+     * Processes the pressing of the logarithm button
+     */
     calcLogarithm() {
         this.history.add(`log(${this.result})`);
         this.result = String(getLogarithm(this.result));
@@ -636,8 +631,8 @@ class calc_Calculator {
     }
 
     /**
-    * Processes the pressing of the sqrt button
-    */
+     * Processes the pressing of the sqrt button
+     */
     calcSqrt() {
         this.history.add(`√${this.result}`);
         this.result = String(getSqrt(this.result));
@@ -645,8 +640,8 @@ class calc_Calculator {
     }
 
     /**
-    * Processes the pressing of the sign change button
-    */
+     * Processes the pressing of the sign change button
+     */
     changeSign() {
         this.result = parseFloat(this.result) * -1;
         this.result = String(this.result);
@@ -654,8 +649,8 @@ class calc_Calculator {
     }
 
     /**
-    * Processes the pressing of the dot button
-    */
+     * Processes the pressing of the dot button
+     */
     addDot() {
         if (this.result.indexOf('.') === -1) {
             this.result += '.';
@@ -665,16 +660,27 @@ class calc_Calculator {
     }
 
     /**
-    * Track the status of the reset button
-    */
+     * Track the status of the reset button
+     */
     changeClearButton() {
         let button = document.querySelector(`${this.selector} .clearButton`);
         button.innerHTML = this.result === '0' ? 'AC' : 'C';
     }
     sendRequest() {
-        var outgoingMessage = 'get data';
-        this.socket.send(outgoingMessage);
-        return false;
+        let outgoingMessage = 'get data';
+        let self = this;
+        return new Promise(function (resolve, reject) {
+            self.socket.onmessage = function (event) {
+                let incomingMessage = event.data;
+                resolve(incomingMessage);
+                return incomingMessage;
+            };
+            self.socket.onerror = function (error) {
+                reject(error);
+                return error;
+            };
+            self.socket.send(outgoingMessage);
+        });
     }
     showMessage(message) {
         let result = document.querySelector(`${this.selector} .calc__result`);
