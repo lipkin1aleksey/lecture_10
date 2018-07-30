@@ -330,20 +330,25 @@ class history_History {
         this.result = [];
         this.historyBlock = document.querySelector(selector + ' .calc__history');
     }
+    //add new elem in results array   
     add(text, ...rest) {
         this.result.push(text, ...rest);
         this.printHistory();
     }
+    //remove last elem in results array
     remove() {
         this.result.pop();
     }
+    //clear results array
     clear() {
         this.result = [];
         this.printHistory();
     }
+    //transform result array to string
     get() {
         return this.result.join(' ');
     }
+    //filster history
     filterHistory() {
         let utilArray = [];
         this.result.forEach((value, index) => {
@@ -359,6 +364,7 @@ class history_History {
         });
         utilArray = [];
     }
+    //print history in display
     printHistory() {
         this.filterHistory();
         this.historyBlock.innerHTML = this.result.join(' ');
@@ -376,9 +382,11 @@ class Journal {
         this.showButton.addEventListener('click', this.toggleJournal);
         this.clearButton.addEventListener('click', this.clearJournal.bind(this));
     }
+    //toggle journal state from open to close and vise versa
     toggleJournal() {
         this.closest('.calc').classList.toggle('calc--journal-open');
     }
+    //clear journal
     clearJournal() {
         let list = this.journal.querySelector('.journal__list');
         list.innerHTML = '';
@@ -387,6 +395,7 @@ class Journal {
         item.textContent = 'There is no journal yet';
         list.appendChild(item);
     }
+    //add new element for journal
     add(string) {
         let list = this.journal.querySelector('.journal__list');
         if (list.firstElementChild.classList.contains('journal__item--empty')) {
@@ -427,7 +436,6 @@ class calc_Calculator {
         this.history = new core_history(selector);
         this.journal = new journal(selector);
         this.menu = new menu();
-        this.socket = new WebSocket('ws://localhost:8081');
     }
     init() {
         let buttons = document.querySelectorAll(`${this.selector} .button`);
@@ -488,7 +496,18 @@ class calc_Calculator {
                         self.addScientificOperand(text);
                         break;
                     case 'S':
-                        self.sendRequest().then(incomingMessage => self.showMessage(incomingMessage)).catch(error => self.showMessage('error'));
+                        self.sendRequest().then(server => {
+                            server.send('get secret data');
+                            return server;
+                        }).then(server => {
+                            server.onmessage = event => {
+                                let incomingMessage = event.data;
+                                self.showMessage(incomingMessage);
+                            };
+                        }).catch(err => {
+                            console.log(err);
+                            self.showMessage(err);
+                        });
                         break;
                     default:
                         self.addOperand(text);
@@ -667,19 +686,14 @@ class calc_Calculator {
         button.innerHTML = this.result === '0' ? 'AC' : 'C';
     }
     sendRequest() {
-        let outgoingMessage = 'get data';
-        let self = this;
         return new Promise(function (resolve, reject) {
-            self.socket.onmessage = function (event) {
-                let incomingMessage = event.data;
-                resolve(incomingMessage);
-                return incomingMessage;
+            var server = new WebSocket('ws://localhost:8081');
+            server.onopen = function () {
+                resolve(server);
             };
-            self.socket.onerror = function (error) {
-                reject(error);
-                return error;
+            server.onerror = function (err) {
+                reject(err);
             };
-            self.socket.send(outgoingMessage);
         });
     }
     showMessage(message) {
@@ -696,11 +710,13 @@ var style = __webpack_require__(18);
 //styles
 
 
+// initialization of first calculator
 let calcOne = new calc("#calc-one");
-// let calcTwo = new Calculator("#calc-two");
-
 calcOne.init();
-// calcTwo.init();
+
+// initialization of second calculator
+let calcTwo = new calc("#calc-two");
+calcTwo.init();
 
 /***/ }),
 

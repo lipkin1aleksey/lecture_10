@@ -2,8 +2,10 @@ import Calculator from "./calculator/calc";
 //styles
 import "../sass/style.scss";
 
+// initialization of first calculator
 let calcOne = new Calculator("#calc-one");
-// let calcTwo = new Calculator("#calc-two");
-
 calcOne.init();
-// calcTwo.init();
+
+// initialization of second calculator
+let calcTwo = new Calculator("#calc-two");
+calcTwo.init();

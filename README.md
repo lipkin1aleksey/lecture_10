@@ -4,6 +4,10 @@ This is a simple calculator application.
 
 ## Changelog
 ```
+v2.1.1
+    1) add ws connection via Promises
+    2) minor fix in code structure
+```
 v2.1 
     1) History, menu, journal and calc refactored to ES6 Class
     2) Now if journal is empty - there number '1' is not displayed
@@ -14,7 +18,7 @@ v2.1
     7) Add JSDoc for functions
     8) Minor change in webpack config
     And some other fixes!
-```
+
 v2.0 Add journal, major fix file structure and bugs;
 v1.2 Major changes in file structure, now you can simple init any numbers of calculators by new Calculator.init()  
 v1.1 Add scientific type, display history and minor fixes in design.

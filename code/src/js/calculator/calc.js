@@ -21,7 +21,6 @@ class Calculator {
         this.history = new History(selector);
         this.journal = new Journal(selector);
         this.menu = new Menu();
-        this.socket = new WebSocket('ws://localhost:8081');
     }
     init() {
         let buttons = document.querySelectorAll(`${this.selector} .button`);
@@ -93,8 +92,20 @@ class Calculator {
                         break;
                     case 'S':
                         self.sendRequest()
-                            .then(incomingMessage => self.showMessage(incomingMessage))
-                            .catch(error => self.showMessage('error'))
+                            .then(server => {
+                                server.send('get secret data');
+                                return server;
+                            })
+                            .then(server => {
+                                server.onmessage = event => {
+                                    let incomingMessage = event.data;
+                                    self.showMessage(incomingMessage);
+                                };
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                self.showMessage(err);
+                            });
                         break;
                     default:
                         self.addOperand(text);
@@ -287,19 +298,14 @@ class Calculator {
         button.innerHTML = this.result === '0' ? 'AC' : 'C';
     }
     sendRequest() {
-        let outgoingMessage = 'get data';
-        let self = this;
         return new Promise(function(resolve, reject) {
-            self.socket.onmessage = function(event) {
-                let incomingMessage = event.data;
-                resolve(incomingMessage);
-                return incomingMessage;
+            var server = new WebSocket('ws://localhost:8081');
+            server.onopen = function() {
+                resolve(server);
             };
-            self.socket.onerror = function(error) {
-                reject(error);
-                return error;
+            server.onerror = function(err) {
+                reject(err);
             };
-            self.socket.send(outgoingMessage);
         });
     }
     showMessage(message) {

@@ -18,6 +18,7 @@ webSocketServer.on('connection', function(ws) {
     let result = getDaysToNewYear();
     for (var key in clients) {
       clients[key].send(result);
+      console.log(`отправлено сообщение ${result}`);
     }
   });
 

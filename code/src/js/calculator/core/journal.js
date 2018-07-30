@@ -7,9 +7,11 @@ class Journal {
         this.showButton.addEventListener('click', this.toggleJournal);
         this.clearButton.addEventListener('click', this.clearJournal.bind(this));
     }
+    //toggle journal state from open to close and vise versa
     toggleJournal() {
         this.closest('.calc').classList.toggle('calc--journal-open');
-    };
+    }
+    //clear journal
     clearJournal() {
         let list = this.journal.querySelector('.journal__list');
         list.innerHTML = '';
@@ -18,6 +20,7 @@ class Journal {
         item.textContent = 'There is no journal yet';
         list.appendChild(item);
     }
+    //add new element for journal
     add(string) {
         let list = this.journal.querySelector('.journal__list');
         if (list.firstElementChild.classList.contains('journal__item--empty')) {
