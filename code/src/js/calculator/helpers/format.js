@@ -18,3 +18,5 @@ export const addSpace = number => {
 export const deleteSpace = number => {
     return String(number).replace(/\s/g, '');
 };
+
+console.log('123123123');
