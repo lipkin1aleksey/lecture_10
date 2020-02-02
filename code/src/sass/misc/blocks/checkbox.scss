@@ -6,9 +6,9 @@
     width: 24px;
     height: 14px;
     margin-right: 5px;
-    transition: all .15s;
+    transition: all 0.15s;
     &:before {
-        content: "";
+        content: '';
         border-radius: 12px;
         position: absolute;
         top: 1px;
@@ -17,8 +17,9 @@
         height: 12px;
         background: #fff;
         display: block;
-        transition: all .15s;
-        box-shadow: 0 2px 4px 0 rgba(0,0,0,.2), 0 0 1px 0 rgba(0,0,0,.21)
+        transition: all 0.15s;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+            0 0 1px 0 rgba(0, 0, 0, 0.21);
     }
 }
 .checkbox-wrapper {
